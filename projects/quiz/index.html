@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="shortcut icon"
+      href="../../images/logo.svg"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <title>Quiz</title>
+  </head>
+  <body>
+    <main>
+      <div class="none shadow" id="modal">
+        <div class="modal">
+          <div id="corrects">[corrects]</div>
+          <div>Correct(s)</div>
+          <div>
+            <span id="percentage">[percentage]</span> of questions correct.
+          </div>
+          <div>
+            <button id="continue" class="button btn-blue">Continue</button>
+          </div>
+        </div>
+      </div>
+      <article id="quiz">
+        <div id="steps">0/2</div>
+        <h2 id="question">1 . [Question]</h2>
+        <hr />
+        <ul class="answers">
+          <li>
+            <label for="true">
+              <input
+                class="answer"
+                type="radio"
+                value="true"
+                name="answer"
+                id="true"
+              />True
+            </label>
+          </li>
+          <li>
+            <label for="false">
+              <input
+                class="answer"
+                type="radio"
+                value="false"
+                name="answer"
+                id="false"
+              />False
+            </label>
+          </li>
+        </ul>
+        <!-- <hr /> -->
+        <div class="quiz-buttons">
+          <button id="moveLeft" class="button">
+            <!-- &#129028; -->
+            <i class="fas fa-arrow-left"></i>
+          </button>
+          <button id="moveRight" class="button">
+            <!-- &#129030; -->
+            <i class="fas fa-arrow-right"></i>
+          </button>
+          <button id="confirm" class="none button btn-blue">Confirm</button>
+          <button id="restart" class="none button btn-blue">Restart</button>
+        </div>
+      </article>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

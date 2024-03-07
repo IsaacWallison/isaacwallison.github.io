@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="shortcut icon"
+      href="../../images/logo.svg"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <title>Calculator</title>
+  </head>
+  <body>
+    <main>
+      <div class="calculator">
+        <div>
+          <iframe srcdoc="" frameborder="1" id="screen"></iframe>
+        </div>
+        <div class="calculator-buttons">
+          <div class="buttons">
+            <button id="leftButton">
+              <!-- &#129032; -->
+              <i class="fa-solid fa-delete-left"></i>
+            </button>
+            <button id="parentheses">()</button>
+            <button class="symbols" value="%">%</button>
+            <button class="symbols" value="÷" data-value="/">&#247;</button>
+          </div>
+          <div class="buttons">
+            <button class="numbers" value="7">7</button>
+            <button class="numbers" value="8">8</button>
+            <button class="numbers" value="9">9</button>
+            <button class="symbols" value="x" data-value="*">x</button>
+          </div>
+          <div class="buttons">
+            <button class="numbers" value="4">4</button>
+            <button class="numbers" value="5">5</button>
+            <button class="numbers" value="6">6</button>
+            <button class="symbols" value="-">-</button>
+          </div>
+          <div class="buttons">
+            <button class="numbers" value="1">1</button>
+            <button class="numbers" value="2">2</button>
+            <button class="numbers" value="3">3</button>
+            <button class="symbols" value="+">+</button>
+          </div>
+          <div class="buttons">
+            <button id="clear" class="btn-clear">C</button>
+            <button class="numbers" value="0">0</button>
+            <button class="symbols" value="," data-value=".">,</button>
+            <button id="equals" class="btn-blue">=</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

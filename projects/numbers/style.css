@@ -1,0 +1,119 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #eeeeff;
+}
+html {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+h1,
+h2 {
+  color: #666666;
+}
+div label {
+  background-color: #eeeeff;
+  border: none;
+  border-radius: 10px;
+  padding: 1.6rem;
+}
+input[type='checkbox'],
+input[type='radio'] {
+  display: none;
+}
+#time {
+  background-color: #eeeeff;
+  color: #666666;
+  padding: 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  position: absolute;
+  left: 80%;
+  top: 10%;
+}
+#percentage {
+  border: 1px solid #eeeeff;
+  border-radius: 10px;
+  padding: 1rem;
+  background-color: #eeeeff;
+  font-weight: 600;
+  color: #666666;
+}
+.board {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
+  position: relative;
+  box-shadow: 1px 1px 1px -1px, 1px -1px 1px -1px, -1px 1px 1px -1px;
+}
+.quiz {
+  gap: 2rem;
+  padding: 4rem;
+}
+.numbers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 400px;
+}
+.button {
+  background-color: #eeeeff;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+  font: inherit;
+  cursor: pointer;
+  width: 6rem;
+}
+.button:disabled {
+  background-color: #eeeeff;
+}
+.button:hover {
+  opacity: 0.6;
+}
+.btn-blue {
+  background-color: #0099ff;
+  color: #ffffff;
+}
+.selected {
+  background-color: #0099ff;
+  color: #eeeeff;
+}
+.correct {
+  background-color: #668e00;
+  color: #eeeeff;
+}
+.incorrect {
+  background-color: #ff6699;
+  color: #eeeeff;
+}
+.shadow {
+  background-color: rgba(0, 0, 0, 0.6);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100vw;
+  z-index: 1;
+}
+.none {
+  display: none;
+}

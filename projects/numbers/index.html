@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Table Game</title>
+  </head>
+  <body>
+    <div class="none shadow" id="modal">
+      <div class="board">
+        <div id="percentage"></div>
+        <h2 id="corrects"></h2>
+        <div>
+          <button id="continue" class="button btn-blue">Continue</button>
+        </div>
+      </div>
+    </div>
+    <main>
+      <div class="board" id="table-board">
+        <h2 id="table-title">Select numbers to start</h2>
+        <div class="numbers">
+          <label for="n1">
+            <input class="number" value="1" type="checkbox" id="n1" />
+            <span>1</span>
+          </label>
+          <label for="n2">
+            <input class="number" value="2" type="checkbox" id="n2" />
+            <span>2</span>
+          </label>
+          <label for="n3">
+            <input class="number" value="3" type="checkbox" id="n3" />
+            <span>3</span>
+          </label>
+          <label for="n4">
+            <input class="number" value="4" type="checkbox" id="n4" />
+            <span>4</span>
+          </label>
+          <label for="n5">
+            <input class="number" value="5" type="checkbox" id="n5" />
+            <span>5</span>
+          </label>
+          <label for="n6">
+            <input class="number" value="6" type="checkbox" id="n6" />
+            <span>6</span>
+          </label>
+          <label for="n7">
+            <input class="number" value="7" type="checkbox" id="n7" />
+            <span>7</span>
+          </label>
+          <label for="n8">
+            <input class="number" value="8" type="checkbox" id="n8" />
+            <span>8</span>
+          </label>
+          <label for="n9">
+            <input class="number" value="9" type="checkbox" id="n9" />
+            <span>9</span>
+          </label>
+        </div>
+        <button id="start" class="button btn-blue">Start</button>
+      </div>
+
+      <div id="quiz-board" class="none quiz board">
+        <span id="time">10</span>
+        <h2 id="question">6 x 1</h2>
+        <div id="answers" class="numbers"></div>
+      </div>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>

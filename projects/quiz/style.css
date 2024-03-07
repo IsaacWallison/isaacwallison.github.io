@@ -1,0 +1,142 @@
+html {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+body {
+  background-color: #eeeeff;
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.26rem;
+}
+li label {
+  font-weight: 600;
+  color: #666666;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid #eeeeff;
+  border-radius: 10px;
+  padding: 0.66rem;
+}
+hr {
+  border: 1px solid #eeeeff;
+  margin: 1rem 0;
+}
+main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#quiz {
+  background-color: #ffffff;
+  padding: 2rem;
+  width: 100%;
+  max-width: 26rem;
+  position: relative;
+  box-shadow: 1px 1px 1px -1px, -1px 1px 1px -1px, 1px -1px 1px -1px;
+}
+#question {
+  color: #666666;
+}
+#steps {
+  color: #666666;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  min-width: 10px;
+  padding: 0.66rem;
+  position: absolute;
+  left: 90%;
+  top: -20%;
+}
+#corrects {
+  color: #ffffff;
+  background-color: #0099ff;
+  border-radius: 10px;
+  padding: 0.56rem;
+}
+#percentage {
+  padding: 0.11rem;
+  background-color: #eeeeff;
+  border-radius: 6px;
+  font-weight: 600;
+}
+.modal {
+  background-color: #ffffff;
+  color: #666666;
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.shadow {
+  background-color: rgba(0, 0, 0, 0.1);
+  min-width: 100vw;
+  min-height: 100vh;
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.quiz-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  padding: 0.5rem 2rem;
+  border-radius: 10px;
+  background-color: #eff0e9;
+  font: inherit;
+  font-size: 1.6rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 1rem;
+  transition: 200ms;
+}
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.button:hover {
+  box-shadow: 1px 1px 5px -1px;
+}
+.none {
+  display: none;
+}
+.btn-blue {
+  background-color: #0099ff;
+  color: #eeeeff;
+  border-radius: 5px;
+  border: none;
+}
+.selected {
+  background-color: #0099ff;
+  color: #eeeeff;
+}
+.correct {
+  background-color: #669e89;
+}
+.incorrect {
+  background-color: #e99999;
+}

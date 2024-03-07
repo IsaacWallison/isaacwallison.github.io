@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="shortcut icon"
+      href="../../images/logo.svg"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <title>Tasks Manager</title>
+  </head>
+  <body>
+    <main class="container">
+      <div class="card center">
+        <div class="p-1 sticky b-bottom d-flex gap-1 field-section">
+          <input type="text" id="field" />
+          <button class="btn btn-blue" id="addBtn">+</button>
+          <button
+            class="hover-orange btn btn-gray none font-600"
+            id="cancelBtn"
+          >
+            <!-- &times; -->
+            <i class="fas fa-close"></i>
+          </button>
+          <button class="btn btn-blue none font-600" id="editBtn">
+            <!-- &check; -->
+            <i class="fas fa-check"></i>
+          </button>
+        </div>
+        <ul id="tasks">
+          <li id="zeroTasks" class="text-gray">No tasks</li>
+        </ul>
+      </div>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>

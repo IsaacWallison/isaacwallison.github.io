@@ -1,0 +1,79 @@
+/* ------ general selections ------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f0f0f1;
+}
+
+html {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 62.5%;
+}
+
+h1 {
+    font-size: 4rem;
+    color: #ff6346;
+}
+
+main {
+    display: flex;
+    width: 100%;
+    max-width: 600px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    min-height: 100vh;
+    gap: 1em;
+    border: 2px solid #f1f1f1;
+    background-color: #ffffff;
+}
+
+/* ---------- id selections ---------- */
+
+#image-container {
+    position: relative;
+}
+
+#pomodoro-img {
+    width: 200px;
+    cursor: pointer;
+    transition: 200ms;
+}
+
+#pomodoro-img:hover {
+    opacity: .6;
+}
+
+#clock {
+    font-size: 4rem;
+    font-weight: 600;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+    color: #f0ffff;
+}
+
+#rounds {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+    padding: 2em 0;
+}
+
+#round {
+    background-color: #f0f0f1;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+#round.done {
+    background-color: #ff6346;
+}

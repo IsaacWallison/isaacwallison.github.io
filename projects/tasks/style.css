@@ -1,0 +1,146 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-color: #eeeeff;
+}
+html {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+ul {
+  list-style: none;
+  padding: 1rem 0;
+}
+li {
+  border-bottom: 1px solid #eeeeff;
+  padding: 0.6rem 1rem;
+}
+li:last-child {
+  border: none;
+}
+li div {
+  user-select: none;
+}
+input[type='text'] {
+  border: none;
+  outline: none;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #eeeeff;
+  flex: 1;
+}
+.container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.d-flex {
+  display: flex;
+}
+.gap-1 {
+  gap: 1rem;
+}
+.btn {
+  padding: 10px 11px;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  font: inherit;
+  user-select: none;
+  transition: 200ms;
+}
+.font-600 {
+  font-weight: 600;
+}
+.btn-sm {
+  padding: 5px;
+  font-size: 0.9rem;
+}
+.btn:hover,
+.btn:active {
+  opacity: 0.8;
+}
+.btn-blue {
+  background-color: #0099ff;
+  color: #ffffff;
+}
+.btn-gray {
+  background-color: #eeeeff;
+}
+.hover-orange:hover {
+  opacity: 1;
+  background-color: #ff9900;
+}
+.hover-blue:hover {
+  background-color: #0099ff;
+}
+.card {
+  border: 1px solid #eeeeff;
+  background-color: #ffffff;
+  max-height: 400px;
+  width: 90%;
+  max-width: 450px;
+  overflow-y: auto;
+  transition: 200ms;
+  box-shadow: 1px 1px 1px -1px, 1px -1px 1px -1px, -1px 1px 1px -1px;
+}
+.center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.sticky {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+}
+.b-bottom {
+  border-bottom: 1px solid #eeeeff;
+}
+.p-1 {
+  padding: 1rem;
+}
+.right {
+  position: absolute;
+  right: 10px;
+}
+.align-center {
+  align-items: center;
+}
+.field-section {
+  background-color: #ffffff;
+}
+.none {
+  display: none;
+}
+.text-gray {
+  color: #666666;
+}
+.removal {
+  animation: removal 600ms linear;
+}
+@keyframes removal {
+  0% {
+    opacity: 0.1;
+    height: 50px;
+  }
+  50% {
+    height: 25px;
+    padding: 0.4rem 1rem;
+  }
+  80% {
+    height: 5px;
+    padding: 0.2rem 1rem;
+  }
+  100% {
+    opacity: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+  }
+}

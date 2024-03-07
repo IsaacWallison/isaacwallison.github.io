@@ -1,0 +1,99 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #eeeeff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+html {
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.calculator {
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 1px 1px 1px 1px #eeeeee, 1px 1px 1px 1px;
+}
+
+#screen {
+  background-color: #eeeeff;
+  border: none;
+  height: 50px;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.calculator-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.btn-blue {
+  background-color: #0099ff;
+  color: #ffffff;
+}
+
+.btn-blue:hover {
+  opacity: 0.6;
+  background-color: #0099ff;
+}
+
+.btn-clear {
+  color: #0099ff;
+}
+.btn-clear:hover {
+  background-color: #0099ff;
+  color: #eeeeff;
+}
+
+.btn-erase {
+  display: flex;
+  flex: 1;
+}
+
+button {
+  /* border-radius: 50%; */
+  padding: 1.6rem;
+  border-radius: 10px;
+  border: 1px solid #999999;
+  width: 2.5rem;
+  height: 2.55rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font: inherit;
+  font-size: 1.6rem;
+  transition: 200ms;
+  cursor: pointer;
+}
+
+button:hover,
+button:active {
+  background-color: #999999;
+}
