@@ -1,215 +1,521 @@
-class NumberGame {
-  constructor() {
-    this.numbers = document.querySelectorAll('.number');
-    this.tableStart = document.querySelector('#table-board');
-    this.startButton = document.querySelector('#start');
-    this.continueButton = document.querySelector('#continue');
-    this.quizBoard = document.querySelector('#quiz-board');
-    this.question = document.querySelector('#question');
-    this.answers = document.querySelector('#answers');
-    this.modal = document.querySelector('#modal');
-    this.corrects = document.querySelector('#corrects');
-    this.percentage = document.querySelector('#percentage');
-
-    this.timer = null;
-    this.totalPoints = 0;
-    this.starterNumber = 0;
-    this.selectedElements = {};
-    this.selected = {};
-    this.selectedKey = null;
-    this.selectedQuantity = 0;
-    this.correctAnswer = null;
-    this.startButton.disabled = Object.keys(this.selected).length === 0;
-  }
-  start() {
-    this.events();
-  }
-  reset() {
-    this.totalPoints = 0;
-    this.timer = null;
-    this.starterNumber = 0;
-    this.correctAnswer = null;
-    this.selectedKey = null;
-    this.selected = {};
-    Object.keys(this.selectedElements).forEach((k) => {
-      this.selectedElements[k].checked = false;
-      this.selectedElements[k].parentElement.classList.remove('selected');
-    });
-    this.selectedElements = {};
-    this.startButton.disabled = Object.keys(this.selected).length === 0;
-  }
-  events() {
-    this.numbers.forEach((e) =>
-      e.addEventListener('change', (ev) => this.selectNumber(ev))
-    );
-    this.startButton.addEventListener('click', () => this.startGame());
-    this.continueButton.addEventListener('click', () => this.toggleModal());
+class RandomNumberGenerator {
+  generateRandomNumber(number) {
+    return Math.floor(Math.random() * (number + 1));
   }
 
-  toggleMode() {
-    this.tableStart.classList.toggle('none');
-    this.quizBoard.classList.toggle('none');
-  }
-
-  startGame() {
-    this.startTimer();
-    this.generateQuestion();
-    this.generateAnswers();
-    this.toggleMode();
-
-    this.question.textContent = `${this.selectedKey} x ${this.starterNumber}`;
-  }
-
-  selectNumber(ev) {
-    ev.target.parentElement.classList.toggle('selected');
-    if (ev.target.checked) {
-      this.selected[ev.target.value] = [];
-      this.selectedElements[ev.target.value] = ev.target;
-    } else {
-      delete this.selected[ev.target.value];
-      delete this.selectedElements[ev.target.value];
-    }
-    this.startButton.disabled = Object.keys(this.selected).length === 0;
-    this.selectedQuantity = Object.keys(this.selected).length;
-  }
-
-  nextQuestion() {
-    this.startTimer();
-    this.generateQuestion();
-    this.generateAnswers();
-    this.question.textContent = `${this.selectedKey} x ${this.starterNumber}`;
-  }
-
-  generateQuestion() {
-    if (this.starterNumber === 9) {
-      this.starterNumber = 0;
-      delete this.selected[this.selectedKey];
-      if (!Object.keys(this.selected).length) {
-        clearInterval(this.timer);
-        this.toggleModal();
-        this.pontuationModal();
-        this.reset();
-        this.toggleMode();
-        return;
-      }
-    }
-    this.selectedKey = Object.keys(this.selected)[0];
-    this.starterNumber += 1;
-    this.correctAnswer = this.selectedKey * this.starterNumber;
-  }
-
-  generateAnswers() {
-    const answers = this.generateArrayOfAnswers(this.correctAnswer);
-    this.answers.innerHTML = '';
-    for (let i = 0; i < 4; i++) {
-      const label = document.createElement('label');
-      const check = document.createElement('input');
-      const answer = document.createElement('span');
-
-      label.for = `answer${i + 1}`;
-
-      check.id = `answer${i + 1}`;
-      check.type = 'radio';
-      check.value = `${answers[i]}`;
-      check.name = 'answer';
-      check.addEventListener('change', (ev) => this.confirmAnswer(ev));
-
-      answer.textContent = `${answers[i]}`;
-
-      label.append(check);
-      label.append(answer);
-
-      this.answers.appendChild(label);
-    }
-  }
-
-  confirmAnswer(ev) {
-    if (+ev.target.value === this.correctAnswer) {
-      this.totalPoints += 1;
-      ev.target.parentElement.classList.toggle('correct');
-    } else {
-      ev.target.parentElement.classList.toggle('incorrect');
-    }
-    //this.startTimer();
-    setTimeout(() => {
-      this.nextQuestion();
-    }, 1000);
-    clearInterval(this.timer);
-  }
-
-  pontuationModal() {
-    const totalQuestions = this.selectedQuantity * 9;
-    const percentage = (this.totalPoints * 100) / totalQuestions;
-
-    this.percentage.textContent =
-      String(percentage).length <= 2
-        ? `${percentage}%`
-        : `${percentage.toFixed(2)}%`;
-    this.corrects.textContent = `${this.totalPoints}/${totalQuestions} correct(s)`;
-  }
-
-  toggleModal() {
-    this.modal.classList.toggle('none');
-  }
-
-  generateArrayOfAnswers(correctAnswer) {
-    const set = new Set();
-    set.add(correctAnswer);
-    while (set.size !== 4) {
-      set.add(this.generateRange(correctAnswer + 1, correctAnswer + 10));
-    }
-    const array = Array.from(set);
-    return this.shuffle(array);
-  }
-
-  generateRange(min, max) {
+  generateRandomNumberRange(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
   }
 
-  shuffle(array) {
-    let currentIndex = array.length;
-    let randomIndex;
+  shuffle(enumerable) {
+    const vector = Array.from(enumerable);
+    let count = 0;
 
-    while (currentIndex > 0) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
+    while (count < vector.length) {
+      const randomIndex = this.generateRandomNumber(vector.length - 1);
+      const temp = vector[count];
+      vector[count] = vector[randomIndex];
+      vector[randomIndex] = temp;
 
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex],
-        array[currentIndex],
-      ];
+      count++;
     }
 
-    return array;
+    return vector;
   }
 
-  startTimer() {
-    let time = 10 * 1000;
-    this.timer = setInterval(() => {
-      if (time < 0) {
-        clearInterval(this.timer);
-        this.selectAllAnswers();
-        setTimeout(() => {
-          this.nextQuestion();
-        }, 1000);
-        return;
+  generateUniqueSetOfNumbers(options) {
+    const set = new Set();
+
+    if (options.number) set.add(options.number);
+
+    if (!options.length) options.length = 4;
+
+    while (set.size < options.length) {
+      const randomNumber = this.generateRandomNumberRange(
+        options.min,
+        options.max
+      );
+      set.add(randomNumber);
+    }
+
+    return this.shuffle(set);
+  }
+}
+
+class ComponentBuilder {
+  constructor(component) {
+    this.component = this.handleComponent(component);
+  }
+
+  build() {
+    return this.component;
+  }
+
+  event(eventType, fn) {
+    this.component.addEventListener(eventType, fn);
+    return this;
+  }
+
+  set(attrs) {
+    Object.entries(attrs).forEach(([k, v]) => {
+      this.component[k] = v;
+    });
+    return this;
+  }
+
+  handleComponent(component) {
+    return component instanceof Element
+      ? component
+      : document.createElement(component);
+  }
+}
+
+class ActionsHandler {
+  _instance = null;
+  constructor() {
+    if (ActionsHandler._instance) {
+      return ActionsHandler._instance;
+    }
+
+    this.selectedTableNumbers = {};
+    this.userResponse = undefined;
+
+    this.currentNumberToAskUser = 1;
+    this.latestNumberToAskUser = 9;
+
+    this.corrects = 0;
+    this.total = undefined;
+
+    ActionsHandler._instance = this;
+  }
+
+  setSelectedTableNumber(number) {
+    this.selectedTableNumbers[number] = number;
+  }
+
+  removeSelectedTableNumber(number) {
+    delete this.selectedTableNumbers[number];
+  }
+
+  atLeastOneNumberSelected() {
+    return Object.keys(this.selectedTableNumbers).length >= 1;
+  }
+
+  getTotalNumbersSelected() {
+    return Object.keys(this.selectedTableNumbers).length;
+  }
+
+  setUserResponse(number) {
+    this.userResponse = number;
+    return this;
+  }
+
+  updateCorrects() {
+    this.corrects++;
+    return this;
+  }
+
+  getCorrects() {
+    return this.corrects;
+  }
+
+  setTotal(totalNumbersSelected) {
+    this.total = totalNumbersSelected;
+    return this;
+  }
+
+  getTotal() {
+    return this.total;
+  }
+
+  getTotalNumbersToAskUser() {
+    return this.getTotalNumbersSelected() * this.latestNumberToAskUser;
+  }
+
+  isAnswerCorrect() {
+    if (+this.calculateAnswer() === +this.userResponse) {
+      return true;
+    }
+    return false;
+  }
+
+  getSelectedTableNumbers() {
+    return this.selectedTableNumbers;
+  }
+
+  getFirstNumberOfTable() {
+    return Number(Object.values(this.selectedTableNumbers)[0]);
+  }
+
+  calculateAnswer() {
+    const answer = this.getFirstNumberOfTable() * this.currentNumberToAskUser;
+
+    return answer;
+  }
+
+  nextQuestion() {
+    this.handleNumberAskedToUser();
+    this.currentNumberToAskUser++;
+    if (this.isTableNumberListEmpty()) {
+      new EventHandler().calculateResults();
+      this.reset();
+
+      return;
+    }
+    this.generateQuestion();
+  }
+
+  reset() {
+    this.currentNumberToAskUser = 1;
+    this.corrects = 0;
+  }
+
+  generateQuestion() {
+    new QuestionHandler().updateQuestion(this.currentNumberToAskUser);
+    new AnswerHandler().generateAnswers();
+  }
+
+  handleNumberAskedToUser() {
+    if (this.isAnswerCorrect()) {
+      this.updateCorrects();
+    }
+    if (this.currentNumberToAskUser === this.latestNumberToAskUser) {
+      this.removeSelectedTableNumber(this.getFirstNumberOfTable());
+    }
+  }
+
+  isTableNumberListEmpty() {
+    if (!this.atLeastOneNumberSelected()) {
+      return true;
+    }
+    return false;
+  }
+}
+
+class TableNumberHandler {
+  getTableNumbers() {
+    return document.querySelectorAll('.chooseable-number');
+  }
+
+  toggleTableNumberSelected() {
+    const tableNumbers = this.getTableNumbers();
+    const startButton = new StartButtonHandler();
+
+    tableNumbers.forEach((el) => {
+      el.addEventListener('click', (ev) => {
+        const { parentElement: selectableComponent, value } = ev.target;
+        selectableComponent.classList.toggle('selected');
+
+        this.handleSelectAndUnselect(selectableComponent, value);
+
+        startButton.toggleDisabled();
+      });
+    });
+  }
+
+  isSelected(selectableComponent) {
+    return selectableComponent.classList.contains('selected');
+  }
+
+  handleSelectAndUnselect(selectableComponent, value) {
+    if (this.isSelected(selectableComponent)) {
+      new ActionsHandler().setSelectedTableNumber(value);
+    } else {
+      new ActionsHandler().removeSelectedTableNumber(value);
+    }
+  }
+
+  unSelectAllTableNumbers() {
+    const tableNumbers = this.getTableNumbers();
+    tableNumbers.forEach((el) => {
+      const { parentElement: selectableComponent } = el;
+      selectableComponent.classList.remove('selected');
+    });
+
+    new StartButtonHandler().toggleDisabled();
+  }
+}
+
+class StartButtonHandler {
+  constructor() {
+    this.started = false;
+  }
+
+  getStartButton() {
+    return document.querySelector('#startButton');
+  }
+
+  toggleDisabled() {
+    const startButton = this.getStartButton();
+    const atLeastOneNumberSelected =
+      new ActionsHandler().atLeastOneNumberSelected();
+
+    if (!atLeastOneNumberSelected) {
+      startButton.disabled = true;
+
+      return;
+    }
+
+    startButton.disabled = false;
+    this.addStartGameEvent(startButton);
+  }
+
+  addStartGameEvent(startButton) {
+    const unstartedBoard = document.querySelector('#table-board');
+    const startedBoard = document.querySelector('#quiz-board');
+
+    startButton.addEventListener('click', () => {
+      unstartedBoard.classList.add('none');
+      startedBoard.classList.remove('none');
+
+      new ActionsHandler()
+        .setTotal(new ActionsHandler().getTotalNumbersToAskUser())
+        .generateQuestion();
+
+      new Timer().startTimer();
+    });
+  }
+}
+
+class QuestionHandler {
+  updateQuestion(currentNumberToAskUser) {
+    const number = new ActionsHandler().getFirstNumberOfTable();
+    document.querySelector(
+      '#question'
+    ).innerHTML = `${number} x ${currentNumberToAskUser}`;
+  }
+}
+
+class AnswerHandler {
+  getAnswersContainer() {
+    return document.querySelector('#answers');
+  }
+
+  appendToAnswersContainer(component) {
+    const answersContainer = this.getAnswersContainer();
+
+    answersContainer.append(component);
+  }
+
+  clearAnswersContainer() {
+    const answersContainer = this.getAnswersContainer();
+
+    answersContainer.innerHTML = '';
+  }
+
+  generateAnswers() {
+    this.clearAnswersContainer();
+    const correctAnswer = new ActionsHandler().calculateAnswer();
+
+    new RandomNumberGenerator()
+      .generateUniqueSetOfNumbers({
+        min: correctAnswer + 1,
+        max: correctAnswer + 5,
+        number: correctAnswer,
+      })
+      .forEach((number) => {
+        this.generateAnswerComponent(number);
+      });
+  }
+
+  generateAnswerComponent(number) {
+    const label = new ComponentBuilder('label')
+      .set({
+        for: number,
+      })
+      .build();
+
+    const input = new ComponentBuilder('input')
+      .set({
+        type: 'checkbox',
+        className: 'number answer',
+        value: number,
+        id: number,
+      })
+      .event('change', (ev) => new EventHandler().selectAnswer(ev))
+      .build();
+
+    const span = new ComponentBuilder('span')
+      .set({
+        innerHTML: number,
+      })
+      .build();
+
+    label.append(input);
+    label.append(span);
+
+    this.appendToAnswersContainer(label);
+  }
+
+  selectAllAnswersWhenTimeout() {
+    const answers = document.querySelectorAll('.answer');
+    answers.forEach((el) => {
+      const { parentElement: selectableComponent } = el;
+
+      if (+el.value === new ActionsHandler().calculateAnswer()) {
+        selectableComponent.classList.add('correct');
+      } else {
+        selectableComponent.classList.add('incorrect');
       }
-      document.querySelector('#time').textContent = `${time / 1000}`;
-      time -= 1000;
+    });
+  }
+}
+
+class EventHandler {
+  selectAnswer(ev) {
+    const { parentElement: selectableComponent, value } = ev.target;
+    const actionsHandler = new ActionsHandler();
+
+    actionsHandler.setUserResponse(value);
+
+    this.handleCorrectAndIncorrectAnswer(selectableComponent);
+
+    setTimeout(() => {
+      new ActionsHandler().nextQuestion();
+      new Timer().startTimer();
     }, 1000);
   }
 
-  selectAllAnswers() {
-    for (let i = 1; i <= 4; i++) {
-      const e = document.querySelector(`#answer${i}`);
-      if (+e.value === this.correctAnswer) {
-        e.parentElement.classList.toggle('correct');
-      } else {
-        e.parentElement.classList.toggle('incorrect');
-      }
+  closeResultsModal() {
+    const unstartedBoard = document.querySelector('#table-board');
+    const resultsModal = document.querySelector('#modal');
+
+    unstartedBoard.classList.remove('none');
+    resultsModal.classList.add('none');
+  }
+
+  openResultsModal() {
+    const startedBoard = document.querySelector('#quiz-board');
+    const resultsModal = document.querySelector('#modal');
+
+    startedBoard.classList.add('none');
+    resultsModal.classList.remove('none');
+  }
+
+  continueEvent() {
+    const continueButton = document.querySelector('#continue');
+
+    continueButton.addEventListener('click', () => {
+      this.closeResultsModal();
+      new TableNumberHandler().unSelectAllTableNumbers();
+    });
+  }
+
+  calculateResults() {
+    this.openResultsModal();
+    this.updatePercentage();
+    this.updateTotal();
+    this.continueEvent();
+  }
+
+  calculatePercentage() {
+    const corrects = new ActionsHandler().getCorrects();
+
+    const total = new ActionsHandler().getTotal();
+
+    const result = Math.floor((corrects * 100) / total);
+
+    return result;
+  }
+
+  updatePercentage() {
+    const percentage = document.querySelector('#percentage');
+
+    percentage.innerHTML = `${this.calculatePercentage()}%`;
+  }
+
+  updateTotal() {
+    const total = document.querySelector('#corrects');
+
+    const actionsHandler = new ActionsHandler();
+
+    total.innerHTML = `${actionsHandler.getCorrects()} of ${actionsHandler.getTotal()} correct(s)`;
+  }
+
+  handleCorrectAndIncorrectAnswer(selectableComponent) {
+    if (new ActionsHandler().isAnswerCorrect()) {
+      selectableComponent.classList.add('correct');
+    } else {
+      selectableComponent.classList.add('incorrect');
     }
   }
 }
 
-const numberGame = new NumberGame();
-numberGame.start();
+class Timer {
+  _instance = null;
+  constructor() {
+    if (Timer._instance) {
+      return Timer._instance;
+    }
+
+    this.timerComponent = document.querySelector('#time');
+    this.seconds = 10;
+    this.timer = null;
+
+    Timer._instance = this;
+  }
+
+  startTimer(time = 10) {
+    this.stopTimer(this.timer);
+
+    this.seconds = this.setSecondsToMiliseconds(time);
+
+    this.setTimer(this.seconds);
+
+    this.handleTimerComponent();
+
+    this.timer = setInterval(() => {
+      this.handleTimerComponent();
+      this.handleTimeout();
+
+      this.setTimer(this.seconds);
+      this.seconds = this.updateTime(this.seconds);
+    }, 1000);
+  }
+
+  handleTimerComponent() {
+    const fiveMiliseconds = 5 * 1000;
+    if (this.seconds <= fiveMiliseconds) {
+      this.timerComponent.classList.remove('timer-blue');
+    } else {
+      this.timerComponent.classList.add('timer-blue');
+    }
+  }
+
+  handleTimeout() {
+    if (this.seconds <= 0) {
+      new AnswerHandler().selectAllAnswersWhenTimeout();
+      clearInterval(this.timer);
+    }
+  }
+
+  updateTime(time) {
+    return time - 1000;
+  }
+
+  setSecondsToMiliseconds(seconds) {
+    return seconds * 1000;
+  }
+
+  setTimer(time) {
+    this.timerComponent.innerHTML = `${this.setMilisecondsToSeconds(time)}`;
+  }
+
+  setMilisecondsToSeconds(ms) {
+    return ms / 1000;
+  }
+
+  stopTimer(timer) {
+    if (timer) {
+      return clearInterval(timer);
+    }
+  }
+}
+
+class TableGame {
+  start() {
+    new TableNumberHandler().toggleTableNumberSelected();
+  }
+}
+
+new TableGame().start();
