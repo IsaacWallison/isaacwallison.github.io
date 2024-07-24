@@ -181,6 +181,7 @@ class ActionsHandler {
     }
     if (this.currentNumberToAskUser === this.latestNumberToAskUser) {
       this.removeSelectedTableNumber(this.getFirstNumberOfTable());
+      this.currentNumberToAskUser = 1;
     }
   }
 
