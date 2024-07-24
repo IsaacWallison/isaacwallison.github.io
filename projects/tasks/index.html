@@ -19,25 +19,29 @@
     <main class="container">
       <div class="card center">
         <div class="p-1 sticky b-bottom d-flex gap-1 field-section">
-          <input type="text" id="field" />
-          <button class="btn btn-blue" id="addBtn">+</button>
+          <input
+            type="text"
+            placeholder="Add task to list"
+            id="field"
+            maxlength="50"
+          />
+          <button class="btn btn-blue" id="addBtn">
+            <i class="fas fa-plus"></i>
+          </button>
           <button
             class="hover-orange btn btn-gray none font-600"
             id="cancelBtn"
           >
-            <!-- &times; -->
             <i class="fas fa-close"></i>
           </button>
           <button class="btn btn-blue none font-600" id="editBtn">
-            <!-- &check; -->
             <i class="fas fa-check"></i>
           </button>
         </div>
-        <ul id="tasks">
-          <li id="zeroTasks" class="text-gray">No tasks</li>
-        </ul>
+        <ul id="tasks"></ul>
       </div>
     </main>
+
     <script src="script.js"></script>
   </body>
 </html>

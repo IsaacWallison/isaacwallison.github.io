@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "question": "Is the bubble sort algorithm O(n)?",
+    "answer": "false"
+  },
+  { "id": 2, "question": "Are binary trees graphs as well?", "answer": "true" },
+  {
+    "id": 3,
+    "question": "Are binary trees always O(log n)?",
+    "answer": "false"
+  },
+  { "id": 4, "question": "Hash tables are O(1) for lookup?", "answer": "true" }
+]

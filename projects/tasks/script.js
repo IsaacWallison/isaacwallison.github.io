@@ -1,220 +1,473 @@
-class TaskManager {
-  constructor() {
-    this.tasksContainer = document.querySelector('#tasks');
-    this.addTaskButton = document.querySelector('#addBtn');
-    this.cancelEditButton = document.querySelector('#cancelBtn');
-    this.editTaskButton = document.querySelector('#editBtn');
-    this.taskField = document.querySelector('#field');
-    this.zeroTasks = document.querySelector('#zeroTasks');
-    this.editButtons = []; // toggle visibility
-    this.editMode = false;
-    this.editId = null;
-    this.editTask = null;
-    this.event = null;
-    this.value = '';
-    this.tasks = this.getTasks() || [];
+class Task {
+  constructor(title = 'untitled', completed = false) {
+    this.id = Date.now();
+    this.title = title;
+    this.completed = completed;
   }
 
-  start() {
-    this.generateLists();
-    this.events();
+  getId() {
+    return this.id;
   }
 
-  events() {
-    this.taskField.addEventListener('change', (ev) => this.handleChange(ev));
-    this.cancelEditButton.addEventListener('click', (ev) =>
-      this.cancelEdit(ev)
-    );
-    this.addTaskButton.addEventListener('click', () => this.addTask());
-    this.editTaskButton.addEventListener('click', () => this.confirmEdit());
+  getTitle() {
+    return this.title;
+  }
+  setTitle(title) {
+    this.title = title;
+    return this;
   }
 
-  handleChange(ev) {
-    this.value = ev.target.value;
-    this.event = ev;
+  getCompleted() {
+    return this.completed;
   }
-
-  addTask() {
-    if (!this.value || !this.value.trim()) return;
-
-    const task = {
-      id: Date.now(),
-      task: this.value,
-      completed: false,
-    };
-
-    this.setTask(task);
-    this.zeroTasks.classList.add('none');
-
-    const li = this.createLi(task);
-    this.addToContainer(li);
-
-    this.value = '';
-    this.event.target.value = '';
-  }
-
-  confirmEdit() {
-    if (!this.value || !this.value.trim()) return;
-    if (this.value === this.editTask.task) {
-      this.toggleButtons();
-      this.reset();
-      return;
-    }
-    this.editTask.task = this.value;
-    this.tasks = this.tasks.map((task) => {
-      return task.id === this.editTask.id ? { ...this.editTask } : task;
-    });
-    document.querySelector(`#taskContent${this.editId}`).textContent =
-      this.value;
-    this.update(this.tasks);
-    this.toggleButtons();
-    this.reset();
-  }
-
-  toggleEditMode(ev) {
-    this.editMode = true;
-    this.editId = ev.target.dataset.id;
-    this.editTask = this.getTaskById(+this.editId);
-    this.taskField.value = this.editTask ? this.editTask.task : 'Error';
-    this.value = this.editTask.task || '';
-    this.taskField.focus();
-
-    this.toggleButtons();
-  }
-
-  cancelEdit() {
-    this.editMode = false;
-    this.editId = null;
-    this.taskField.value = '';
-
-    this.toggleButtons();
-  }
-
-  createLi(task) {
-    const li = document.createElement('li');
-    const field = document.createElement('input');
-    const div = document.createElement('div');
-    const editButton = document.createElement('button');
-    const deleteButton = document.createElement('button');
-
-    li.setAttribute('data-id', task.id);
-    li.classList.add('d-flex', 'gap-1', 'align-center');
-
-    field.setAttribute('type', 'checkbox');
-    field.addEventListener('change', (ev) => this.toggleComplete(ev));
-    field.setAttribute('data-id', task.id);
-    field.checked = task.completed;
-
-    div.textContent = task.task;
-    div.id = `taskContent${task.id}`;
-
-    editButton.setAttribute('data-id', task.id);
-    editButton.addEventListener('click', (ev) => this.toggleEditMode(ev));
-    editButton.textContent = 'Edit';
-    editButton.classList.add('right', 'btn', 'btn-sm', 'hover-blue');
-    this.editButtons.push(editButton);
-
-    deleteButton.setAttribute('data-id', task.id);
-    deleteButton.textContent = 'Remove';
-    deleteButton.classList.add(
-      'right',
-      'btn',
-      'btn-sm',
-      'hover-orange',
-      `${!task.completed && 'none'}`
-    );
-    deleteButton.id = `deleteButton${task.id}`;
-    deleteButton.addEventListener('click', (ev) => this.removeTask(ev));
-
-    li.appendChild(field);
-    li.appendChild(div);
-    li.appendChild(editButton);
-    li.appendChild(deleteButton);
-
-    return li;
-  }
-
-  addToContainer(element) {
-    this.tasksContainer.appendChild(element);
-  }
-
-  generateLists() {
-    if (!this.tasks.length) {
-      this.zeroTasks.classList.remove('none');
-      return;
-    }
-    this.zeroTasks.classList.add('none');
-    this.tasks.forEach((task) => {
-      const li = this.createLi(task);
-      this.addToContainer(li);
-    });
-  }
-
-  toggleComplete(ev) {
-    if (this.editMode) this.cancelEdit();
-    const id = ev.target.dataset.id;
-    const tasks = this.tasks.map((task) => {
-      return task.id === +id
-        ? { ...task, completed: !task.completed }
-        : { ...task };
-    });
-    this.tasks = tasks;
-    this.update(tasks);
-    document.querySelector(`#deleteButton${id}`).classList.toggle('none');
-  }
-
-  removeTask(ev) {
-    const taskId = +ev.target.dataset.id;
-    const element = ev.target.parentElement;
-    if (this.tasks.length > 1) element.classList.add('removal');
-    this.tasks = this.tasks.filter((task) => {
-      return task.id !== taskId;
-    });
-    this.update(this.tasks);
-    setTimeout(() => {
-      element.remove();
-      if (!this.tasks.length) this.zeroTasks.classList.remove('none');
-    }, 500);
-  }
-
-  setTask(task) {
-    this.tasks.push(task);
-    this.update(this.tasks);
-  }
-
-  getTasks() {
-    const tasks = JSON.parse(localStorage.getItem('tasks')) || null;
-    return tasks;
-  }
-
-  getTaskById(id) {
-    const task = this.tasks.find((task) => task.id === id);
-    if (!task) return null;
-    return task;
-  }
-
-  update(tasks) {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-  }
-
-  toggleButtons() {
-    this.addTaskButton.classList.toggle('none');
-    this.cancelEditButton.classList.toggle('none');
-    this.editTaskButton.classList.toggle('none');
-    this.editButtons.forEach((button) => {
-      button.classList.toggle('none');
-    });
-  }
-
-  reset() {
-    this.value = '';
-    this.taskField.value = '';
-    this.event = null;
-    this.editId = null;
-    this.editTask = null;
-    this.editMode = false;
+  setCompleted(completed) {
+    this.completed = completed;
   }
 }
 
-const tasks = new TaskManager();
-tasks.start();
+class TaskStorage {
+  constructor(key = 'tasks') {
+    this.key = key;
+  }
+
+  store(task) {
+    if (!this.isValidStorage(this.storage)) return;
+
+    this.storage.setItem(this.key, task);
+  }
+
+  retrieve() {
+    if (!this.isValidStorage(this.storage)) return;
+
+    return this.storage.getItem(this.key);
+  }
+
+  setKey(key) {
+    this.key = key;
+    return this;
+  }
+
+  setupStorage(storage) {
+    switch (storage) {
+      case 'local':
+        this.storage = localStorage;
+        return this;
+      case 'session':
+        this.storage = sessionStorage;
+        return this;
+    }
+  }
+
+  isValidStorage(storage) {
+    return storage && storage instanceof Storage;
+  }
+}
+
+class HTMLHandler {
+  select(element) {
+    return document.querySelector(element);
+  }
+  selectAll(elements) {
+    return document.querySelectorAll(elements);
+  }
+
+  addClass(element, className) {
+    element.classList.add(className);
+    return this;
+  }
+  removeClass(element, className) {
+    element.classList.remove(className);
+    return this;
+  }
+  toggleClass(element, className) {
+    element.classList.toggle(className);
+    return this;
+  }
+
+  create(element) {
+    return document.createElement(element);
+  }
+
+  setup(element) {
+    this.element = element;
+    return this;
+  }
+
+  setEvent(eventType, fn) {
+    if (!this.element) return;
+
+    this.element.addEventListener(eventType, (ev) => fn(ev));
+    return this;
+  }
+
+  setAttributes(attributes) {
+    if (!this.element) return;
+
+    Object.entries(attributes).forEach(([k, v]) => {
+      this.element[k] = v;
+    });
+
+    return this;
+  }
+}
+
+class TaskComponentHandler extends HTMLHandler {
+  constructor() {
+    super();
+    this.taskField = this.select('#field');
+    this.addTaskButton = this.select('#addBtn');
+    this.editTaskButton = this.select('#editBtn');
+    this.cancelTaskEditButton = this.select('#cancelBtn');
+    this.tasksContainer = this.select('#tasks');
+  }
+
+  setupTaskFieldEvent(eventType, fn) {
+    this.setup(this.taskField).setEvent(eventType, (ev) => fn(ev));
+    return this;
+  }
+
+  setupAddTaskButtonEvent(eventType, fn) {
+    this.setup(this.addTaskButton).setEvent(eventType, (ev) => fn(ev));
+    return this;
+  }
+
+  setupCheckTaskEvent(eventType, fn) {
+    const checkboxes = this.selectAll('.check');
+
+    checkboxes.forEach((el) => {
+      el.addEventListener(eventType, (ev) => fn(ev));
+    });
+
+    return this;
+  }
+
+  setupEditTaskModeEvent(eventType, fn) {
+    const editButtons = this.selectAll('.edit-btns');
+
+    editButtons.forEach((el) => {
+      el.addEventListener(eventType, (ev) => fn(ev));
+    });
+
+    return this;
+  }
+
+  setupCancelEditTaskModeEvent(eventType, fn) {
+    this.setup(this.cancelTaskEditButton).setEvent(eventType, (ev) => fn(ev));
+    return this;
+  }
+
+  setupEditTaskEvent(eventType, fn) {
+    this.setup(this.editTaskButton).setEvent(eventType, (ev) => fn(ev));
+    return this;
+  }
+
+  setupDeleteTaskEvent(eventType, fn) {
+    const deleteButtons = this.selectAll('.delete-btns');
+
+    deleteButtons.forEach((el) => {
+      el.addEventListener(eventType, (ev) => fn(ev));
+    });
+
+    return this;
+  }
+
+  focusOnTaskField() {
+    this.taskField.focus();
+    return this;
+  }
+
+  getValueFromTaskField() {
+    return this.taskField.value;
+  }
+
+  setValueForTaskField(value) {
+    this.taskField.value = value;
+    return this;
+  }
+
+  toggleVisibleComponentsEditMode() {
+    this.toggleClassForComponents(
+      [
+        'addTaskButton',
+        'editTaskButton',
+        'cancelTaskEditButton',
+        '.edit-btns',
+        '.delete-btns',
+      ],
+      'none'
+    );
+    return this;
+  }
+
+  createComponentAndSetAttributes(component, attributes) {
+    const HTMLComponent = this.create(component);
+    this.setup(HTMLComponent).setAttributes(attributes);
+
+    return HTMLComponent;
+  }
+
+  buildLiForTask() {
+    return this.createComponentAndSetAttributes('li', {
+      className: 'd-flex space-between task-li',
+    });
+  }
+
+  buildCheckboxForTask(task) {
+    return this.createComponentAndSetAttributes('input', {
+      type: 'checkbox',
+      className: 'check',
+      checked: task.completed,
+      id: task.id,
+    });
+  }
+
+  buildLabelForTask(task) {
+    return this.createComponentAndSetAttributes('label', {
+      textContent: task.title,
+      className: 'd-flex gap-1 align-center flex-reverse',
+    });
+  }
+
+  buildDivForTask() {
+    return this.createComponentAndSetAttributes('div', {
+      className: 'd-flex gap-1',
+    });
+  }
+
+  buildEditButtonForTask(task) {
+    return this.createComponentAndSetAttributes('button', {
+      className: 'edit-btns btn-sm',
+      textContent: 'EDIT',
+      id: task.id,
+    });
+  }
+
+  buildDeleteButtonForTask(task) {
+    return this.createComponentAndSetAttributes('button', {
+      className: 'delete-btns btn-sm',
+      textContent: 'DELETE',
+      id: task.id,
+    });
+  }
+
+  buildComponentForTask(task) {
+    const li = this.buildLiForTask();
+    const checkbox = this.buildCheckboxForTask(task);
+    const label = this.buildLabelForTask(task);
+    const div = this.buildDivForTask();
+    const editButton = this.buildEditButtonForTask(task);
+    const deleteButton = this.buildDeleteButtonForTask(task);
+
+    label.appendChild(checkbox);
+
+    div.appendChild(editButton);
+    div.appendChild(deleteButton);
+
+    li.appendChild(label);
+    li.appendChild(div);
+
+    this.tasksContainer.appendChild(li);
+  }
+
+  toggleClassForComponents(components, className) {
+    components.forEach((component) => {
+      if (this[component]) {
+        this.toggleClass(this[component], className);
+      } else {
+        this.toggleSelectedComponentsClass(component, className);
+      }
+    });
+  }
+
+  toggleSelectedComponentsClass(component, className) {
+    const selectedComponents = this.selectAll(component);
+
+    if (selectedComponents.length) {
+      selectedComponents.forEach((selectedComponent) => {
+        this.toggleClass(selectedComponent, className);
+      });
+    }
+  }
+
+  clearTasksContainer() {
+    this.tasksContainer.innerHTML = '';
+  }
+
+  clearTaskField() {
+    this.taskField.value = '';
+  }
+}
+
+class TaskApp {
+  constructor(
+    taskComponentHandler = new TaskComponentHandler(),
+    taskStorage = new TaskStorage()
+  ) {
+    this.taskComponentHandler = taskComponentHandler;
+    this.taskStorage = taskStorage;
+  }
+
+  start() {
+    this.events();
+    this.fetchAndBuildTasks();
+  }
+
+  events() {
+    this.taskComponentHandler
+      .setupTaskFieldEvent('change', (ev) => this.getValueFromTaskField(ev))
+      .setupAddTaskButtonEvent('click', () => this.createTask())
+      .setupCancelEditTaskModeEvent('click', (ev) =>
+        this.cancelEditTaskModeEvent(ev)
+      )
+      .setupEditTaskEvent('click', (ev) => this.editTaskEvent(ev));
+  }
+
+  setupGeneratedTaskComponentEvents() {
+    this.taskComponentHandler
+      .setupCheckTaskEvent('change', (ev) => this.toggleCompleted(ev))
+      .setupDeleteTaskEvent('click', (ev) => this.deleteTask(ev))
+      .setupEditTaskModeEvent('click', (ev) => this.editTaskModeEvent(ev));
+  }
+
+  fetchAndBuildTasks() {
+    this.taskComponentHandler.focusOnTaskField().clearTasksContainer();
+
+    const tasksCollection = this.getTasks();
+
+    if (!tasksCollection.length) return;
+
+    tasksCollection.map((task) => {
+      this.taskComponentHandler.buildComponentForTask(task);
+    });
+
+    this.setupGeneratedTaskComponentEvents();
+  }
+
+  getValueFromTaskField(ev) {
+    this.title = ev.target.value;
+  }
+
+  createTask() {
+    if (!this.isValidTitle()) return;
+
+    const newTask = new Task(this.title);
+
+    this.storeTask(newTask);
+
+    this.fetchAndBuildTasks();
+
+    this.taskComponentHandler.clearTaskField();
+  }
+
+  storeTask(task) {
+    const tasksCollection = this.getTasks();
+
+    tasksCollection.push(task);
+
+    this.storeTasks(tasksCollection);
+  }
+
+  storeTasks(tasks) {
+    this.taskStorage.store(this.encodeJSON(tasks));
+  }
+
+  getTasks() {
+    return this.decodeJSON(this.taskStorage.retrieve()) || [];
+  }
+
+  getTaskById(id) {
+    const tasksCollection = this.getTasks();
+
+    const taskResource = tasksCollection.find((task) => {
+      return task.id === id;
+    });
+
+    return taskResource;
+  }
+
+  updateTask(taskResource) {
+    const tasksCollection = this.getTasks();
+
+    const updatedTasks = tasksCollection.map((task) => {
+      return taskResource.id === task.id ? { ...taskResource } : { ...task };
+    });
+
+    this.storeTasks(updatedTasks);
+  }
+
+  toggleCompleted(ev) {
+    const taskId = +ev.target.id;
+
+    const task = this.getTaskById(taskId);
+
+    task.completed = !task.completed;
+
+    this.updateTask(task);
+  }
+
+  editTaskEvent() {
+    const valueFromTaskField =
+      this.taskComponentHandler.getValueFromTaskField();
+
+    if (!valueFromTaskField.trim()) return;
+
+    const task = this.getTaskById(this.taskToEditId);
+    task.title = valueFromTaskField;
+
+    this.updateTask(task);
+
+    this.cancelEditTaskModeEvent();
+
+    this.fetchAndBuildTasks();
+  }
+
+  deleteTask(ev) {
+    const taskId = +ev.target.id;
+
+    const tasksCollection = this.getTasks();
+
+    const updatedTasks = tasksCollection.filter((task) => {
+      return task.id !== taskId;
+    });
+
+    this.storeTasks(updatedTasks);
+
+    this.fetchAndBuildTasks();
+  }
+
+  editTaskModeEvent(ev) {
+    this.taskToEditId = +ev.target.id;
+    const task = this.getTaskById(this.taskToEditId);
+
+    this.taskComponentHandler
+      .setValueForTaskField(task.title)
+      .focusOnTaskField()
+      .toggleVisibleComponentsEditMode();
+  }
+
+  cancelEditTaskModeEvent() {
+    this.taskComponentHandler
+      .toggleVisibleComponentsEditMode()
+      .clearTaskField();
+  }
+
+  isTasksCollectionEmpty() {
+    return !this.getTasks().length;
+  }
+
+  isValidTitle() {
+    return this.title && this.title.trim();
+  }
+
+  encodeJSON(tasks) {
+    return JSON.stringify(tasks);
+  }
+
+  decodeJSON(tasks) {
+    return JSON.parse(tasks);
+  }
+}
+
+const taskStorageLocal = new TaskStorage().setupStorage('local');
+
+new TaskApp(new TaskComponentHandler(), taskStorageLocal).start();
