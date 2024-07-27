@@ -6,7 +6,6 @@
   padding: 0;
 }
 body {
-  /* background-color: #eeeeff; */
   width: 100vw;
   height: 100vh;
 }
@@ -39,7 +38,6 @@ li label {
   user-select: none;
 }
 input[type='text'] {
-  /* border: 1px solid #666666; */
   border: none;
   outline: none;
   padding: 1.6em 1em;
@@ -67,7 +65,6 @@ button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* gap: 10em; */
 }
 
 .d-flex {
@@ -131,10 +128,6 @@ button {
   border: 1px solid #666666;
   position: fixed;
   top: 0;
-  /* position: fixed;
-  left: 50%;
-  top: 0;
-  transform: translate(-50%); */
 }
 
 .card-sm {
@@ -208,7 +201,7 @@ button {
   }
 }
 
-@media screen and (min-width: 380px) {
+@media screen and (min-width: 460px) {
   .container {
     display: flex;
     flex-direction: column;
