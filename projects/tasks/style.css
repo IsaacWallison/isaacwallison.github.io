@@ -201,7 +201,7 @@ button {
   }
 }
 
-@media screen and (min-width: 460px) {
+@media screen and (min-width: 480px) {
   .container {
     display: flex;
     flex-direction: column;

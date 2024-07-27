@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;700&display=swap');
+
+html {
+  --s: 62px; /* control the size*/
+  --c1: #b2b2b2;
+  --c2: #ffffff;
+  --c3: #d9d9d9;
+
+  --_g: var(--c3) 0 120deg, #0000 0;
+  background: conic-gradient(from -60deg at 50% calc(100% / 3), var(--_g)),
+    conic-gradient(from 120deg at 50% calc(200% / 3), var(--_g)),
+    conic-gradient(
+      from 60deg at calc(200% / 3),
+      var(--c3) 60deg,
+      var(--c2) 0 120deg,
+      #0000 0
+    ),
+    conic-gradient(from 180deg at calc(100% / 3), var(--c1) 60deg, var(--_g)),
+    linear-gradient(
+      90deg,
+      var(--c1) calc(100% / 6),
+      var(--c2) 0 50%,
+      var(--c1) 0 calc(500% / 6),
+      var(--c2) 0
+    );
+  background-size: calc(1.732 * var(--s)) var(--s);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  height: 100vh;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+h1 {
+  font-size: 4rem;
+  color: #ff6346;
+}
+
+main {
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.pomodoro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.6em;
+  margin: 0 auto;
+  width: 95%;
+  max-width: 600px;
+  min-height: 60vh;
+  padding: 2em;
+  background-color: #ffffff;
+  border-radius: 1em;
+}
+
+/* From https://css.glass */
+.glass {
+  /* background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+   */
+  background: rgba(255, 255, 255, 0.5);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+#image-container {
+  position: relative;
+}
+
+#pomodoro-img {
+  width: 220px;
+  cursor: pointer;
+  transition: 200ms;
+}
+
+#pomodoro-img:hover {
+  opacity: 0.6;
+}
+
+#timer {
+  font-size: 4rem;
+  font-weight: 600;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
+  color: #f0ffff;
+}
+
+#rounds {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+  padding: 2em 0;
+}
+
+.round {
+  background-color: #ff634622;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  transition: 800ms;
+}
+
+.round.done {
+  background-color: #ff6346;
+  transition: 600ms;
+}
