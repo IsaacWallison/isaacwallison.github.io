@@ -115,10 +115,11 @@ class TaskComponentHandler extends HTMLHandler {
   constructor() {
     super();
     this.taskField = this.select('#field');
-    this.addTaskButton = this.select('#addBtn');
-    this.editTaskButton = this.select('#editBtn');
-    this.cancelTaskEditButton = this.select('#cancelBtn');
+    this.addTaskButton = this.select('#add-btn');
+    this.editTaskButton = this.select('#edit-btn');
+    this.cancelTaskEditButton = this.select('#cancel-btn');
     this.tasksContainer = this.select('#tasks');
+    this.noTasksImageContainer = this.select('#image-container');
   }
 
   setupTaskFieldEvent(eventType, fn) {
@@ -199,6 +200,15 @@ class TaskComponentHandler extends HTMLHandler {
     return this;
   }
 
+  toggleVisibilityNoTasksImageContainer(visibility) {
+    if (visibility === 'none') {
+      this.addClass(this.noTasksImageContainer, 'none');
+      return this;
+    }
+    this.removeClass(this.noTasksImageContainer, 'none');
+    return this;
+  }
+
   createComponentAndSetAttributes(component, attributes) {
     const HTMLComponent = this.create(component);
     this.setup(HTMLComponent).setAttributes(attributes);
@@ -237,7 +247,6 @@ class TaskComponentHandler extends HTMLHandler {
   buildEditButtonForTask(task) {
     return this.createComponentAndSetAttributes('button', {
       className: 'edit-btns btn-sm',
-      textContent: 'EDIT',
       id: task.id,
     });
   }
@@ -245,7 +254,21 @@ class TaskComponentHandler extends HTMLHandler {
   buildDeleteButtonForTask(task) {
     return this.createComponentAndSetAttributes('button', {
       className: 'delete-btns btn-sm',
-      textContent: 'DELETE',
+
+      id: task.id,
+    });
+  }
+
+  buildEditIconForTask(task) {
+    return this.createComponentAndSetAttributes('i', {
+      className: 'fas fa-edit edit-btns',
+      id: task.id,
+    });
+  }
+
+  buildDeleteIconForTask(task) {
+    return this.createComponentAndSetAttributes('i', {
+      className: 'fas fa-remove',
       id: task.id,
     });
   }
@@ -258,6 +281,9 @@ class TaskComponentHandler extends HTMLHandler {
     const editButton = this.buildEditButtonForTask(task);
     const deleteButton = this.buildDeleteButtonForTask(task);
 
+    const editIcon = this.buildEditIconForTask(task);
+    const deleteIcon = this.buildDeleteIconForTask(task);
+
     label.appendChild(checkbox);
 
     div.appendChild(editButton);
@@ -265,6 +291,9 @@ class TaskComponentHandler extends HTMLHandler {
 
     li.appendChild(label);
     li.appendChild(div);
+
+    editButton.appendChild(editIcon);
+    deleteButton.appendChild(deleteIcon);
 
     this.tasksContainer.appendChild(li);
   }
@@ -291,10 +320,12 @@ class TaskComponentHandler extends HTMLHandler {
 
   clearTasksContainer() {
     this.tasksContainer.innerHTML = '';
+    return this;
   }
 
   clearTaskField() {
     this.taskField.value = '';
+    return this;
   }
 }
 
@@ -308,7 +339,10 @@ class TaskApp {
   }
 
   start() {
+    this.taskComponentHandler.focusOnTaskField();
+
     this.events();
+
     this.fetchAndBuildTasks();
   }
 
@@ -330,17 +364,21 @@ class TaskApp {
   }
 
   fetchAndBuildTasks() {
-    this.taskComponentHandler.focusOnTaskField().clearTasksContainer();
+    this.taskComponentHandler.clearTasksContainer();
 
     const tasksCollection = this.getTasks();
 
-    if (!tasksCollection.length) return;
+    if (!tasksCollection.length) {
+      this.taskComponentHandler.toggleVisibilityNoTasksImageContainer();
+      return;
+    }
 
     tasksCollection.map((task) => {
       this.taskComponentHandler.buildComponentForTask(task);
     });
 
     this.setupGeneratedTaskComponentEvents();
+    this.taskComponentHandler.toggleVisibilityNoTasksImageContainer('none');
   }
 
   getValueFromTaskField(ev) {
@@ -354,9 +392,11 @@ class TaskApp {
 
     this.storeTask(newTask);
 
-    this.fetchAndBuildTasks();
+    this.clearTaskFieldAndTitle();
 
-    this.taskComponentHandler.clearTaskField();
+    this.taskComponentHandler.focusOnTaskField();
+
+    this.fetchAndBuildTasks();
   }
 
   storeTask(task) {
@@ -416,6 +456,8 @@ class TaskApp {
 
     this.updateTask(task);
 
+    this.clearTaskFieldAndTitle();
+
     this.cancelEditTaskModeEvent();
 
     this.fetchAndBuildTasks();
@@ -436,6 +478,8 @@ class TaskApp {
   }
 
   editTaskModeEvent(ev) {
+    ev.stopPropagation();
+
     this.taskToEditId = +ev.target.id;
     const task = this.getTaskById(this.taskToEditId);
 
@@ -449,6 +493,11 @@ class TaskApp {
     this.taskComponentHandler
       .toggleVisibleComponentsEditMode()
       .clearTaskField();
+  }
+
+  clearTaskFieldAndTitle() {
+    this.title = '';
+    this.taskComponentHandler.clearTaskField();
   }
 
   isTasksCollectionEmpty() {

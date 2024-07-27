@@ -13,32 +13,41 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
-    <title>Tasks Manager</title>
+    <title>TaskIt</title>
   </head>
   <body>
     <main class="container">
       <div class="card center">
-        <div class="p-1 sticky b-bottom d-flex gap-1 field-section">
+        <div class="d-flex gap-1">
           <input
             type="text"
             placeholder="Add task to list"
             id="field"
             maxlength="50"
           />
-          <button class="btn btn-blue" id="addBtn">
+          <button class="btn btn-blue" id="add-btn">
             <i class="fas fa-plus"></i>
           </button>
           <button
             class="hover-orange btn btn-gray none font-600"
-            id="cancelBtn"
+            id="cancel-btn"
           >
             <i class="fas fa-close"></i>
           </button>
-          <button class="btn btn-blue none font-600" id="editBtn">
+          <button class="btn btn-blue none font-600" id="edit-btn">
             <i class="fas fa-check"></i>
           </button>
         </div>
         <ul id="tasks"></ul>
+      </div>
+      <div id="image-container" class="image-container none">
+        <img
+          src="./images/undraw_accept_tasks_re_09mv.svg"
+          alt="no tasks"
+          class="image"
+          id="no-tasks"
+        />
+        <h2>No tasks</h2>
       </div>
     </main>
 

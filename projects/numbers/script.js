@@ -155,7 +155,7 @@ class ActionsHandler {
 
   nextQuestion() {
     this.handleNumberAskedToUser();
-    this.currentNumberToAskUser++;
+    // this.currentNumberToAskUser++;
     if (this.isTableNumberListEmpty()) {
       new EventHandler().calculateResults();
       this.reset();
@@ -182,7 +182,9 @@ class ActionsHandler {
     if (this.currentNumberToAskUser === this.latestNumberToAskUser) {
       this.removeSelectedTableNumber(this.getFirstNumberOfTable());
       this.currentNumberToAskUser = 1;
+      return;
     }
+    this.currentNumberToAskUser++;
   }
 
   isTableNumberListEmpty() {
@@ -485,8 +487,13 @@ class Timer {
 
   handleTimeout() {
     if (this.seconds <= 0) {
+      this.stopTimer(this.timer);
       new AnswerHandler().selectAllAnswersWhenTimeout();
-      clearInterval(this.timer);
+
+      setTimeout(() => {
+        this.startTimer(10);
+        new ActionsHandler().nextQuestion();
+      }, 1000);
     }
   }
 
