@@ -121,7 +121,6 @@ button {
   background-color: #ffffff;
   max-height: 100%;
   width: 100%;
-  max-width: 450px;
   overflow-y: auto;
   transition: 200ms;
   padding: 1.5rem 1rem;
@@ -146,6 +145,8 @@ button {
   background-color: #ffffff;
   width: 100%;
   max-width: 580px;
+  height: 100%;
+  z-index: -1;
   background: rgba(255, 255, 255, 0.5);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -201,7 +202,7 @@ button {
   }
 }
 
-@media screen and (min-width: 480px) {
+@media screen and (min-width: 490px) {
   .container {
     display: flex;
     flex-direction: column;
@@ -211,11 +212,15 @@ button {
 
   .card {
     position: relative;
-    max-width: 600px;
+    max-width: 650px;
     max-height: 600px;
   }
 
   .btn {
     width: 10%;
+  }
+
+  .image-container {
+    max-height: 400px;
   }
 }
