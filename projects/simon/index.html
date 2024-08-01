@@ -18,21 +18,22 @@
   <body>
     <!-- <h1 id="level-title">Pressione A para começar ou clique nesse botão</h1> -->
     <div class="container">
-      <div class="center">
-        <button id="start-button">Start</button>
-        <button id="level-title" class="none">Level 1</button>
-        <div lass="row">
-          <div type="button" id="green" class="btn green"></div>
-
-          <div type="button" id="red" class="btn red"></div>
-        </div>
-
-        <div class="row">
-          <div type="button" id="yellow" class="btn yellow"></div>
-          <div type="button" id="blue" class="btn blue"></div>
+      <!-- <button id="level-title" class="none">Level 1</button> -->
+      <h1 id="level-title" class="none">Level 1</h1>
+      <div class="buttons-container">
+        <div class="buttons-grid">
+          <button type="button" id="green" class="green btn simon-btn"></button>
+          <button type="button" id="red" class="red btn simon-btn"></button>
+          <button
+            type="button"
+            id="yellow"
+            class="yellow btn simon-btn"
+          ></button>
+          <button type="button" id="blue" class="blue btn simon-btn"></button>
         </div>
       </div>
     </div>
+    <button class="start-btn" id="start-button">Start</button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="game.js"></script>

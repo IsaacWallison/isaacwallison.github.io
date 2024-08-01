@@ -4,9 +4,9 @@ const pomodoroTimer = document.querySelector('#timer');
 const pomodoroCycles = document.querySelectorAll('.round');
 
 const pomodoroTimerState = {
-  focusTime: calculateTimeAsMilliseconds(10, 'seconds'),
-  shortInterval: calculateTimeAsMilliseconds(5, 'seconds'),
-  longInterval: calculateTimeAsMilliseconds(15, 'seconds'),
+  focusTime: calculateTimeAsMilliseconds(25, 'minutes'),
+  shortInterval: calculateTimeAsMilliseconds(5, 'minutes'),
+  longInterval: calculateTimeAsMilliseconds(15, 'minutes'),
   timerCycle: 1,
   stopAfterCycle: pomodoroCycles.length * 2,
   focusCycles: 0,
