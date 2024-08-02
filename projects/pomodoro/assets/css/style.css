@@ -8,9 +8,16 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: url(../images/rain.jpg);
+  background: url(../images/rain-desktop.jpg);
+  height: auto;
   background-size: cover;
-  height: 100vh;
+}
+
+@media (max-width: 500px) {
+  body {
+    background: url(../images/rain-mobile.jpg);
+    background-size: cover;
+  }
 }
 
 html {
@@ -61,6 +68,7 @@ main {
 
 #pomodoro-img {
   width: 220px;
+  height: auto;
   cursor: pointer;
   transition: 200ms;
 }
