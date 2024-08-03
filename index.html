@@ -34,7 +34,7 @@
         <div class="line"></div>
       </div>
     </nav>
-    <aside id="mobile-navbar" class="none">
+    <aside id="mobile-navbar">
       <ul class="mobile-navbar">
         <li><a href="#inicio" class="nav-link">Início</a></li>
         <li><a href="#sobre" class="nav-link">Sobre</a></li>
@@ -60,21 +60,22 @@
 
     <section id="sobre">
       <div class="container">
+        <img
+          src="./images/illustrations/programming-undraw.svg"
+          class="image"
+          alt="ilustração de uma pessoa programando do site undraw.com"
+        />
         <div>
-          <img
-            src="./images/illustrations/programming-undraw.svg"
-            class="image"
-            alt="ilustração de uma pessoa programando do site undraw.com"
-          />
-        </div>
-        <div>
-          <h2>Sobre mim</h2>
-          <p>
-            Estudante de Análise e Desenvolvimento de Sistemas, e em constante
-            aprendizado, com conhecimento em tecnologias de desenvolvimento web,
-            linguagens de programação e algoritmos, busco estabelecer bons
-            relacionamentos de trabalho.
-          </p>
+          <div>
+            <h2>Sobre mim</h2>
+            <p>
+              Eu sou um autodidata que busca a melhoria contínua de seus
+              projetos sendo detalhista e focado no trabalho. Além disso, sou
+              formado em Análise e Desenvolvimento de Sistemas, dessa forma,
+              tenho um conhecimento generalizado em processos de
+              desenvolvimento.
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -136,13 +137,6 @@
     <section id="habilidades">
       <div class="container">
         <div>
-          <img
-            src="./images/illustrations/illustration.gif"
-            class="illustration"
-            alt="ilustração gif"
-          />
-        </div>
-        <div>
           <h2>Habilidades</h2>
           <p>
             Tenho conhecimento em tecnologias de desenvolvimento web:
@@ -161,6 +155,11 @@
             <span class="tag">respostas</span>.
           </p>
         </div>
+        <img
+          src="./images/illustrations/undraw_hello_re_3evm.svg"
+          class="image"
+          alt="illustration of a person giving hello"
+        />
       </div>
     </section>
 
@@ -206,17 +205,13 @@
 
       document.querySelector('#menu').addEventListener('click', toggleNavbar);
 
-      // document
-      //   .querySelector('.mobile-close')
-      //   .addEventListener('click', closeNavbar);
-
       document
         .querySelector('#mobile-navbar')
         .addEventListener('click', toggleNavbar);
 
       function toggleNavbar() {
-        document.querySelector('#mobile-navbar').classList.toggle('none');
-        document.querySelector('.mobile-navbar').classList.toggle('toggle');
+        document.querySelector('#mobile-navbar').classList.toggle('visible');
+        document.querySelector('.mobile-navbar').classList.toggle('visible');
       }
     </script>
   </body>
