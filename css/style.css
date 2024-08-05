@@ -1,0 +1,278 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;700&display=swap');
+
+:root {
+  --green-600: #1b4242;
+  --green-500: #5c8374;
+  --green-100: #9ec8b9;
+
+  --blue-600: #232f3e;
+
+  --light: #ffffff;
+
+  --gray-600: #666666;
+  --gray-100: #eeeeee;
+
+  --color-glass: rgba(0, 0, 0, 0.1);
+
+  --glass-effect: blur(10px);
+
+  --color-link: var(--light);
+  --color-mobile-menu: var(--blue-600);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  width: min(460px, 90%);
+}
+
+:is(h1, h2, h3, h4, h5, h6) {
+  margin: 0.5em 0;
+}
+
+:is(h2, h3, h4, h5, h6) {
+  font-size: 2rem;
+}
+
+:is(.sidebar-link:active) > .mobile-navbar {
+  left: -100%;
+}
+
+p {
+  line-height: 2;
+  font-size: 1.1rem;
+}
+
+.navbar {
+  --navbar-theme: transparent;
+
+  background-color: var(--navbar-theme);
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: sticky;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  transition: 400ms;
+}
+
+.navbar.visible {
+  --navbar-theme: var(--light);
+  --color-link: var(--blue-600);
+
+  box-shadow: -1px -1px 20px var(--color-glass);
+}
+
+.nav-link {
+  color: var(--color-link);
+  transition: 400ms;
+}
+
+.nav-link:hover {
+  color: var(--green-100);
+}
+
+.desktop-menu {
+  display: none;
+  gap: 1em;
+}
+
+.mobile-menu {
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 0.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.2em;
+  cursor: pointer;
+}
+
+@media (min-width: 700px) {
+  .mobile-menu {
+    display: none;
+  }
+  .desktop-menu {
+    display: flex;
+  }
+}
+
+.line {
+  width: 80%;
+  height: 4px;
+  border-radius: 0.6em;
+  background-color: var(--color-link);
+}
+
+.line:first-child {
+  width: 60%;
+}
+
+.mobile-navbar {
+  position: fixed;
+  display: flex;
+  place-content: center;
+  top: 0;
+  left: -100%;
+  background-color: var(--blue-600);
+  width: 100%;
+  height: 100%;
+  transition: 400ms;
+}
+
+.mobile-navbar > ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2.5em;
+  font-size: 1.5rem;
+}
+
+.sidebar-toggler {
+  display: none;
+}
+
+.sidebar-toggler:checked + .mobile-navbar {
+  left: 0;
+}
+
+.container {
+  padding: 1.6em;
+  min-height: 100svh;
+}
+
+.container:not(.container--blue) {
+  color: var(--gray-600);
+}
+
+.container:is(footer) {
+  min-height: 200px;
+}
+
+.container:has(.container--grid) {
+  padding: 0;
+}
+
+.container--grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2em;
+  padding: 1em 2em;
+}
+
+.container--centered {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  place-content: center;
+  gap: 2em;
+}
+
+.container--flex {
+  font-size: 1.6rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+
+.container--text {
+  width: min(500px, 100%);
+  text-align: center;
+}
+
+.container--blue {
+  background-color: var(--blue-600);
+  color: var(--light);
+}
+
+.card {
+  width: min(400px, 90%);
+  background-color: var(--light);
+  border-radius: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+  gap: 1em;
+}
+
+.button {
+  background-color: var(--gray-600);
+  padding: 1em;
+  border-radius: 1em;
+  color: var(--light);
+}
+
+.button--sidebar {
+  background-color: var(--color-mobile-menu);
+  position: absolute;
+  border: none;
+  right: 5%;
+  top: 5%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: 200ms;
+}
+
+.button--sidebar:hover {
+  color: var(--gray-600);
+}
+
+.button--card {
+  background-color: var(--blue-600);
+  transition: 200ms;
+}
+
+.button--card:hover {
+  background-color: var(--gray-600);
+}
+
+.image-cover {
+  object-fit: cover;
+  width: 100%;
+  aspect-ratio: 15/9;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-light {
+  color: var(--light);
+}
+
+.text-highlight {
+  background-color: var(--blue-600);
+  color: var(--light);
+  padding: 0.2em;
+  border-radius: 0.5em;
+}
+
+.text-upper {
+  text-transform: uppercase;
+}
+
+.social-icon:hover {
+  color: var(--green-500);
+}

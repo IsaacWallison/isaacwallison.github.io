@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <link
       rel="shortcut icon"
       href="./images/logotipo.svg"
@@ -13,206 +13,210 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
-    <title>Isaac</title>
+    <title>Isaac | Development</title>
   </head>
 
   <body>
-    <nav>
-      <!-- <a href="#" class="logo">[*-*]</a> -->
+    <nav class="navbar">
       <a href="#" class="logo"
         ><img src="./images/logotipo.svg" alt="logotipo"
       /></a>
-      <ul class="navbar">
+      <ul class="desktop-menu">
         <li><a href="#inicio" class="nav-link">Início</a></li>
         <li><a href="#sobre" class="nav-link">Sobre</a></li>
         <li><a href="#trabalhos" class="nav-link">Trabalhos</a></li>
         <li><a href="#habilidades" class="nav-link">Habilidades</a></li>
         <li><a href="#contato" class="nav-link">Contato</a></li>
       </ul>
-      <div id="menu" class="mobile-menu">
+      <label for="sidebar-toggle" class="mobile-menu">
         <div class="line"></div>
         <div class="line"></div>
-      </div>
+      </label>
     </nav>
-    <aside id="mobile-navbar">
-      <ul class="mobile-navbar">
-        <li><a href="#inicio" class="nav-link">Início</a></li>
-        <li><a href="#sobre" class="nav-link">Sobre</a></li>
-        <li><a href="#projetos" class="nav-link">Projetos</a></li>
-        <li><a href="#habilidades" class="nav-link">Habilidades</a></li>
-        <li><a href="#contato" class="nav-link">Contato</a></li>
-      </ul>
-    </aside>
 
-    <header id="inicio">
-      <div class="container">
-        <img
-          src="./images/photo.png"
-          alt="minha imagem de perfil com blusa azul e sorrindo"
-          class="profile"
-        />
-        <div>
-          <h1>Olá, eu sou Isaac</h1>
-          <p>Software Developer</p>
-        </div>
+    <section>
+      <input
+        type="checkbox"
+        id="sidebar-toggle"
+        name="sidebar-toggle"
+        class="sidebar-toggler"
+      />
+      <aside id="mobile-navbar" class="mobile-navbar">
+        <label for="sidebar-toggle" class="button button--sidebar">
+          <i class="fa-solid fa-close"></i>
+        </label>
+        <ul class="text-center">
+          <li><a href="#inicio" class="sidebar-link nav-link"> Início </a></li>
+          <li><a href="#sobre" class="sidebar-link nav-link">Sobre</a></li>
+          <li>
+            <a href="#projetos" class="sidebar-link nav-link">Projetos</a>
+          </li>
+          <li>
+            <a href="#habilidades" class="sidebar-link nav-link">Habilidades</a>
+          </li>
+          <li><a href="#contato" class="sidebar-link nav-link">Contato</a></li>
+        </ul>
+      </aside>
+    </section>
+
+    <header id="inicio" class="container container--blue container--centered">
+      <img
+        src="./images/photo.png"
+        alt="minha imagem de perfil com blusa azul e sorrindo"
+        class="profile"
+      />
+      <div class="container--text">
+        <h1>Olá, eu sou Isaac</h1>
+        <p class="text-upper">Software Developer</p>
       </div>
     </header>
 
-    <section id="sobre">
-      <div class="container">
-        <img
-          src="./images/illustrations/programming-undraw.svg"
-          class="image"
-          alt="ilustração de uma pessoa programando do site undraw.com"
-        />
-        <div>
-          <div>
-            <h2>Sobre mim</h2>
-            <p>
-              Eu sou um autodidata que busca a melhoria contínua de seus
-              projetos sendo detalhista e focado no trabalho. Além disso, sou
-              formado em Análise e Desenvolvimento de Sistemas, dessa forma,
-              tenho um conhecimento generalizado em processos de
-              desenvolvimento.
-            </p>
-          </div>
-        </div>
+    <section id="sobre" class="container container--centered">
+      <img
+        src="./images/illustrations/programming-undraw.svg"
+        class="image"
+        alt="ilustração de uma pessoa programando do site undraw.com"
+      />
+      <div class="container--text">
+        <h2>Sobre mim</h2>
+        <p>
+          Eu sou um autodidata que busca a melhoria contínua de seus projetos
+          sendo detalhista e focado no trabalho. Além disso, sou formado em
+          Análise e Desenvolvimento de Sistemas, dessa forma, tenho um
+          conhecimento generalizado em processos de desenvolvimento.
+        </p>
       </div>
     </section>
 
-    <section id="projetos">
-      <div class="container">
-        <div>
-          <h2>Projetos</h2>
-        </div>
-        <div>
-          <article class="card">
-            <img
-              src="images/projects/pomodoro.jpeg"
-              alt="imagem do projeto pomodoro em javascript"
-              class="image image-sm"
-            />
-            <a
-              href="./projects/pomodoro/index.html"
-              target="_blank"
-              class="button"
-              >Visualizar</a
-            >
-          </article>
+    <section
+      id="projetos"
+      class="container container--blue container--centered"
+    >
+      <div>
+        <h2>Projetos</h2>
+      </div>
+      <div class="container--grid">
+        <article class="card">
+          <img
+            src="images/projects/pomodoro.jpeg"
+            alt="imagem do projeto pomodoro em javascript"
+            class="image image-cover"
+          />
+          <a
+            href="./projects/pomodoro/index.html"
+            target="_blank"
+            class="button button--card"
+            >Visualizar</a
+          >
+        </article>
 
-          <article class="card">
-            <img
-              src="images/projects/simon-game.jpeg"
-              alt="image do projeto do simon game em javascript"
-              class="image image-sm"
-            />
-            <a href="./projects/simon/index.html" target="_blank" class="button"
-              >Visualizar</a
-            >
-          </article>
-          <article class="card">
-            <img
-              src="images/projects/tasks.jpeg"
-              alt="Image do projeto gerenciador de tarefas"
-              class="image image-sm"
-            />
-            <a href="./projects/tasks/index.html" target="_blank" class="button"
-              >Visualizar</a
-            >
-          </article>
-          <article class="card">
-            <img
-              src="images/projects/quiz.jpeg"
-              alt="Image do projeto quiz"
-              class="image image-sm"
-            />
-            <a href="./projects/quiz/index.html" target="_blank" class="button"
-              >Visualizar</a
-            >
-          </article>
-        </div>
+        <article class="card">
+          <img
+            src="images/projects/simon-game.jpeg"
+            alt="image do projeto do simon game em javascript"
+            class="image image-cover"
+          />
+          <a
+            href="./projects/simon/index.html"
+            target="_blank"
+            class="button button--card"
+            >Visualizar</a
+          >
+        </article>
+        <article class="card">
+          <img
+            src="images/projects/tasks.jpeg"
+            alt="Image do projeto gerenciador de tarefas"
+            class="image image-cover"
+          />
+          <a
+            href="./projects/tasks/index.html"
+            target="_blank"
+            class="button button--card"
+            >Visualizar</a
+          >
+        </article>
+        <article class="card">
+          <img
+            src="images/projects/quiz.jpeg"
+            alt="Image do projeto quiz"
+            class="image image-cover"
+          />
+          <a
+            href="./projects/quiz/index.html"
+            target="_blank"
+            class="button button--card"
+            >Visualizar</a
+          >
+        </article>
       </div>
     </section>
 
-    <section id="habilidades">
-      <div class="container">
-        <div>
-          <h2>Habilidades</h2>
-          <p>
-            Tenho conhecimento em tecnologias de desenvolvimento web:
-            <span class="tag">HTML</span>, <span class="tag">CSS</span>,
-            <span class="tag">JS</span>, <span class="tag">GIT</span>,
-            <span class="tag">Node</span>, <span class="tag">SQL</span>,
-            <span class="tag">NoSQL</span>, <span class="tag">React</span>
-            e estou sempre disposto a aprender.
-          </p>
-          <p>
-            Sou bem atento a <span class="tag">detalhes</span> e busco me
-            expressar de um jeito <span class="tag">claro</span> e
-            <span class="tag">eficaz</span>, possuo um
-            <span class="tag">inglês técnico</span> sendo capaz de ler
-            <span class="tag">documentações</span> na área e buscar
-            <span class="tag">respostas</span>.
-          </p>
-        </div>
-        <img
-          src="./images/illustrations/undraw_hello_re_3evm.svg"
-          class="image"
-          alt="illustration of a person giving hello"
-        />
+    <section id="habilidades" class="container container--centered">
+      <div class="container--text">
+        <h2>Habilidades</h2>
+        <p>
+          Tenho conhecimento em tecnologias de desenvolvimento web:
+          <span class="tag text-highlight">HTML</span>,
+          <span class="tag text-highlight">CSS</span>,
+          <span class="tag text-highlight">JS</span>,
+          <span class="tag text-highlight">GIT</span>,
+          <span class="tag text-highlight">Node</span>,
+          <span class="tag text-highlight">SQL</span>,
+          <span class="tag text-highlight">NoSQL</span>,
+          <span class="tag text-highlight">React</span>
+          e estou sempre disposto a aprender.
+        </p>
+        <p>
+          Sou bem atento a <span class="tag text-highlight">detalhes</span> e
+          busco me expressar de um jeito
+          <span class="tag text-highlight">claro</span> e
+          <span class="tag text-highlight">eficaz</span>, possuo um
+          <span class="tag text-highlight">inglês técnico</span> sendo capaz de
+          ler <span class="tag text-highlight">documentações</span> na área e
+          buscar <span class="tag text-highlight">respostas</span>.
+        </p>
       </div>
+      <img
+        src="./images/illustrations/undraw_hello_re_3evm.svg"
+        class="image"
+        alt="illustration of a person giving hello"
+      />
     </section>
 
-    <footer id="contato">
-      <ul>
+    <footer id="contato" class="container container--blue container--centered">
+      <ul class="container--flex">
         <li>
           <a
             href="https://www.linkedin.com/in/isaac-wallison/"
             target="_blank"
-            class="contact"
-            ><i class="fa-brands fa-linkedin"></i>Linkedin</a
-          >
+            class="text-light social-icon"
+            ><i class="fa-brands fa-linkedin"></i
+          ></a>
         </li>
         <li>
-          <a href="https://github.com/isaacwallison" class="contact"
-            ><i class="fa-brands fa-github"></i>Github</a
-          >
+          <a
+            href="https://github.com/isaacwallison"
+            class="text-light social-icon"
+            ><i class="fa-brands fa-github"></i
+          ></a>
         </li>
         <li>
           <a
             href="https://instagram.com/isaacwallison"
             target="_blank"
-            class="contact"
-            ><i class="fa-brands fa-instagram"></i>Instagram</a
-          >
+            class="text-light social-icon"
+            ><i class="fa-brands fa-instagram"></i
+          ></a>
         </li>
         <li>
-          <a href="mailto:isaacwls25@gmail.com" class="contact"
-            ><i class="fa-solid fa-envelope"></i>E-mail</a
-          >
+          <a href="mailto:isaacwls25@gmail.com" class="text-light social-icon"
+            ><i class="fa-solid fa-envelope"></i
+          ></a>
         </li>
       </ul>
     </footer>
 
-    <script>
-      function alterarEstiloDeNavbar() {
-        if (window.scrollY > 20)
-          document.querySelector('nav').classList.add('scroll');
-        else document.querySelector('nav').classList.remove('scroll');
-      }
-
-      window.onscroll = () => alterarEstiloDeNavbar();
-
-      document.querySelector('#menu').addEventListener('click', toggleNavbar);
-
-      document
-        .querySelector('#mobile-navbar')
-        .addEventListener('click', toggleNavbar);
-
-      function toggleNavbar() {
-        document.querySelector('#mobile-navbar').classList.toggle('visible');
-        document.querySelector('.mobile-navbar').classList.toggle('visible');
-      }
-    </script>
+    <script src="js/script.js"></script>
   </body>
 </html>
