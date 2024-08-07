@@ -151,10 +151,6 @@ function animateButton(button) {
 function handleSoundForButton(button) {
   const audio = getSoundFor(button.id);
   audio.play();
-
-  setTimeout(() => {
-    audio.pause();
-  }, 500);
 }
 
 function animateRandomChoosenButton(randomColor) {
