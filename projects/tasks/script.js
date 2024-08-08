@@ -218,7 +218,7 @@ class TaskComponentHandler extends HTMLHandler {
 
   buildLiForTask() {
     return this.createComponentAndSetAttributes('li', {
-      className: 'd-flex space-between task-li',
+      className: 'd-flex space-between',
     });
   }
 

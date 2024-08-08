@@ -5,57 +5,66 @@
   margin: 0;
   padding: 0;
 }
+
 body {
   width: 100vw;
   height: 100vh;
 }
+
 html {
   font-family: 'Poppins', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
     'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  background-color: #eeeeee;
+}
 
-  background-image: radial-gradient(#1a1c96 2px, transparent 2px);
-  background-size: 10px 10px;
-  background-color: #6d66cf;
+::-webkit-scrollbar {
+  background: #666666;
+  width: 10px;
+}
 
-  background: -webkit-linear-gradient(0deg, #474bff 0%, #f2b28b 100%);
+::-webkit-scrollbar-thumb {
+  background: #eeeeee;
+}
 
-  background-image: radial-gradient(#9e9edb 1.5px, transparent 1.5px);
-  background-size: 10px 10px;
-  background-color: #e9f0f2;
+:has(input[type='text']:focus) > .card {
+  background-color: #ffffff;
+  box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.1),
+    -10px -10px 10px rgba(0, 0, 0, 0.1);
 }
 
 ul {
   list-style: none;
 }
 li {
-  border-bottom: 1px solid #eeeeff;
+  border-bottom: 1px solid #e9e8e6;
   padding: 1.1rem 1rem;
 }
 li:last-child {
   border: none;
 }
+li:first-child {
+  padding-top: 2rem;
+}
 li label {
   user-select: none;
 }
+
 input[type='text'] {
   border: none;
   outline: none;
   padding: 1.6em 1em;
   border-radius: 10px;
   background-color: #eeeeff;
-  width: 80%;
+  width: 90%;
   font: inherit;
 }
 input[type='text']:focus {
-  outline: 1px solid #0099ff;
+  box-shadow: inset 5px 5px 15px rgba(0 0 0 / 0.15),
+    inset -10px -10px 10px rgba(0, 0, 0, 0.1);
 }
 
 button {
   z-index: 1000;
-}
-
-.check:checked > label {
-  text-decoration: line-through;
 }
 
 .container {
@@ -104,6 +113,7 @@ button {
 }
 .btn-blue {
   background-color: #0099ff;
+  background-color: #0474be;
   color: #ffffff;
 }
 .btn-gray {
@@ -119,14 +129,18 @@ button {
 
 .card {
   background-color: #ffffff;
+  background-color: hsl(240, 100%, 97%);
   max-height: 100%;
   width: 100%;
   overflow-y: auto;
   transition: 200ms;
   padding: 1.5rem 1rem;
-  border: 1px solid #666666;
   position: fixed;
   top: 0;
+  border-radius: 1em;
+  box-shadow: 11px 11px 10px rgba(0, 0, 0, 0.1) inset,
+    -10px -10px 10px rgba(0, 0, 0, 0.1) inset;
+  transition: 0.5s;
 }
 
 .card-sm {
@@ -142,15 +156,9 @@ button {
   justify-content: center;
   gap: 1em;
   padding: 1em;
-  background-color: #ffffff;
   width: 100%;
   max-width: 580px;
   height: 100%;
-  z-index: -1;
-  background: rgba(255, 255, 255, 0.5);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .image {
@@ -184,22 +192,6 @@ button {
 }
 .text-gray {
   color: #666666;
-}
-
-.task-li {
-  animation: enter 600ms linear;
-}
-
-@keyframes enter {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 @media screen and (min-width: 490px) {
