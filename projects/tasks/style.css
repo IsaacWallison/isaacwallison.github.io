@@ -50,7 +50,7 @@ li label {
 }
 
 input[type='text'] {
-  border: none;
+  border: 1px solid #e9e8e6;
   outline: none;
   padding: 1.6em 1em;
   border-radius: 10px;
@@ -128,7 +128,6 @@ button {
 }
 
 .card {
-  background-color: #ffffff;
   background-color: hsl(240, 100%, 97%);
   max-height: 100%;
   width: 100%;
@@ -138,9 +137,10 @@ button {
   position: fixed;
   top: 0;
   border-radius: 1em;
-  box-shadow: 11px 11px 10px rgba(0, 0, 0, 0.1) inset,
-    -10px -10px 10px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: inset 11px 11px 10px rgba(0, 0, 0, 0.1),
+    inset -10px -10px 10px rgba(0, 0, 0, 0.1);
   transition: 0.5s;
+  z-index: 1;
 }
 
 .card-sm {
