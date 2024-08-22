@@ -16,38 +16,46 @@
     <title>TaskIt</title>
   </head>
   <body>
-    <main class="container">
-      <div class="card center">
-        <div class="d-flex gap-1">
+    <main class="container flex--y">
+      <div></div>
+      <div class="card" id="tasks-component">
+        <div class="flex padding-1">
           <input
             type="text"
+            id="task-field"
+            class="field"
             placeholder="Add task to list"
-            id="field"
             maxlength="50"
           />
-          <button class="btn btn-blue" id="add-btn">
-            <i class="fas fa-plus"></i>
+          <button class="btn btn-md btn--blue" id="task-add" data-event="add">
+            <i class="fas fa-plus button-icon"></i>
           </button>
           <button
-            class="hover-orange btn btn-gray none font-600"
-            id="cancel-btn"
+            class="btn btn-md none"
+            id="cancel-edit"
+            data-event="cancelEdit"
           >
-            <i class="fas fa-close"></i>
+            <i class="fas fa-close button-icon"></i>
           </button>
-          <button class="btn btn-blue none font-600" id="edit-btn">
-            <i class="fas fa-check"></i>
+          <button
+            class="btn btn-md btn-blue none"
+            id="confirm-edit"
+            data-event="confirmEdit"
+          >
+            <i class="fas fa-check button-icon"></i>
           </button>
         </div>
-        <ul id="tasks"></ul>
+        <ul id="tasks-container" class="list"></ul>
       </div>
-      <div id="image-container" class="image-container none">
+
+      <div id="image-container" class="image-container flex--y align-center">
+        <h2>No tasks</h2>
         <img
           src="./images/undraw_accept_tasks_re_09mv.svg"
           alt="no tasks"
           class="image"
           id="no-tasks"
         />
-        <h2>No tasks</h2>
       </div>
     </main>
 
