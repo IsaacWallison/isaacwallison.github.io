@@ -1,22 +1,20 @@
-html {
-  font-family: 'Press start 2p', cursive;
-}
-
 * {
+  padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: 'Press start 2p', cursive;
 }
 
 body {
   background-color: #000044;
-  height: 100vh;
+  height: 100svh;
 }
 
 #level-title {
-  font-size: 2.6rem;
+  font-size: clamp(2.5rem, 5vw, 2.9rem);
   color: #fbf2bf;
   position: absolute;
-  top: 5%;
+  top: calc(5% - 1vw);
 }
 
 .container {
@@ -29,25 +27,19 @@ body {
 
 .buttons-container {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
-  padding: 1.6rem;
+  width: 100%;
   height: 100%;
-  min-width: 100%;
+  padding: 1em;
 }
 
 .buttons-grid {
-  display: flex;
-  flex-wrap: wrap;
+  width: 100%;
+  display: grid;
   gap: 1rem;
   justify-content: center;
-  align-items: center;
-}
-
-.buttons-grid > * {
-  flex: 0 1 40%;
+  grid-template-columns: repeat(2, min(22em, 50%));
 }
 
 .simon-btn {
@@ -58,7 +50,7 @@ body {
 }
 
 .start-btn {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   padding: 1.5rem 2rem;
@@ -98,10 +90,4 @@ body {
 
 .none {
   display: none;
-}
-
-@media (min-width: 720px) {
-  /* .start-btn {
-    min-width: 100%;
-  } */
 }
