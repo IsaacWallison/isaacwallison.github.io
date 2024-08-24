@@ -17,22 +17,21 @@
   </head>
   <body>
     <main>
-      <div class="none shadow" id="modal">
-        <div class="modal">
-          <div id="corrects">[corrects]</div>
-          <div id="percentage">[percentage]</div>
-          <div>
-            <button id="continue" class="button btn-blue">Continue</button>
-          </div>
+      <dialog id="results-modal">
+        <span id="corrects">[corrects]</span>
+        <span id="percentage" class="text-gray text-center"> [message] </span>
+        <div>
+          <button id="continue-button" class="button btn-blue">Continue</button>
         </div>
-      </div>
+      </dialog>
+
       <article id="quiz">
-        <div id="steps">[1/n]</div>
-        <h2 id="question"></h2>
+        <h2 class="question" id="question"></h2>
+        <div class="question-number" id="question-number">[1/n]</div>
         <hr />
         <ul class="answers">
           <li>
-            <label for="true">
+            <label id="true-label" for="true">
               <input
                 class="answer"
                 type="radio"
@@ -43,7 +42,7 @@
             </label>
           </li>
           <li>
-            <label for="false">
+            <label id="false-label" for="false">
               <input
                 class="answer"
                 type="radio"
@@ -55,14 +54,18 @@
           </li>
         </ul>
         <div class="quiz-buttons">
-          <button id="leftButton" class="button">
-            <i class="fas fa-arrow-left"></i>
+          <button id="left-button" class="button">
+            <i class="fas fa-arrow-left button-icon"></i>
           </button>
-          <button id="rightButton" class="button">
-            <i class="fas fa-arrow-right"></i>
+          <button id="right-button" class="button">
+            <i class="fas fa-arrow-right button-icon"></i>
           </button>
-          <button id="confirm" class="none button btn-blue">Confirm</button>
-          <button id="restart" class="none button btn-blue">Restart</button>
+          <button id="confirm-button" class="none button btn-blue" disabled>
+            Confirm
+          </button>
+          <button id="restart-button" class="none button btn-blue">
+            Restart
+          </button>
         </div>
       </article>
     </main>

@@ -1,524 +1,318 @@
-class QuestionHandler {
-  constructor() {
-    this.questions = undefined;
+(() => {
+  const quizComponent = document.querySelector('#quiz');
+  const question = document.querySelector('#question');
+  const questionNumber = document.querySelector('#question-number');
+  const answerComponents = document.querySelectorAll('.answer');
+  const leftButton = document.querySelector('#left-button');
+  const rightButton = document.querySelector('#right-button');
+  const confirmButton = document.querySelector('#confirm-button');
+  const continueButton = document.querySelector('#continue-button');
+  const restartButton = document.querySelector('#restart-button');
+  const resultsModal = document.querySelector('#results-modal');
+
+  const state = {
+    questions: [],
+    currentQuestion: 0,
+    getTotalQuestions() {
+      return this.questions.length;
+    },
+    getCurrentQuestion() {
+      return this.questions[this.currentQuestion];
+    },
+  };
+
+  const answers = {};
+
+  async function init() {
+    await getQuestions();
+    updateState();
+    addListeners();
   }
 
-  async getQuestions(uri) {
-    await this.fetchQuestions(uri);
-    return this.questions;
-  }
-
-  async fetchQuestions(uri) {
-    try {
-      const response = await fetch(uri);
-      this.questions = await response.json();
-    } catch (error) {
-      return error;
+  function handleEvents(e) {
+    if (e.target.classList.contains('button-icon')) {
+      e.target.closest('button').click();
+    }
+    const { id } = e.target;
+    switch (id) {
+      case 'true':
+      case 'false':
+        chooseAnswer(e);
+        return;
+      case 'left-button':
+        moveLeft();
+        return;
+      case 'right-button':
+        moveRight();
+        return;
+      case 'confirm-button':
+        confirmAnswers();
+        return;
+      case 'restart-button':
+        restart();
+        return;
     }
   }
-}
 
-class ComponentHandler {
-  static select(element) {
-    return document.querySelector(element);
-  }
-  static selectAll(elements) {
-    return document.querySelectorAll(elements);
-  }
-
-  static enableButton(button) {
-    button.disabled = false;
-  }
-  static disableButton(button) {
-    button.disabled = true;
-  }
-}
-
-class EventHandler {
-  constructor(element) {
-    this.element = element;
-  }
-
-  setEvent(eventType, fn) {
-    this.element.addEventListener(eventType, (ev) => fn(ev));
-  }
-
-  setEvents(eventType, fn) {
-    this.element.forEach((el) => {
-      el.addEventListener(eventType, (ev) => fn(ev));
+  function addListeners() {
+    quizComponent.addEventListener('click', (e) => {
+      handleEvents(e);
     });
-  }
-}
-
-class QuizComponent {
-  static instance = null;
-
-  constructor() {
-    if (QuizComponent.instance) {
-      return QuizComponent.instance;
-    }
-    this.currentQuestion = ComponentHandler.select('#question');
-    this.questionsCounter = ComponentHandler.select('#steps');
-
-    this.answersSelector = ComponentHandler.selectAll('.answer');
-    this.trueSelector = ComponentHandler.select('#true');
-    this.falseSelector = ComponentHandler.select('#false');
-
-    this.leftButton = ComponentHandler.select('#leftButton');
-    this.rightButton = ComponentHandler.select('#rightButton');
-
-    this.confirmButton = ComponentHandler.select('#confirm');
-    this.restartButton = ComponentHandler.select('#restart');
-
-    this.continueButton = ComponentHandler.select('#continue');
-
-    this.resultsModal = ComponentHandler.select('#modal');
-
-    QuizComponent.instance = this;
+    continueButton.addEventListener('click', closeResultsModal);
   }
 
-  showCurrentAndTotalQuestions(questionIndex, totalQuestions) {
-    this.questionsCounter.innerHTML = `${questionIndex}/${totalQuestions}`;
-    return this;
-  }
+  function randomize(values) {
+    const randomValues = Array.from(values);
 
-  showCurrentQuestion(questionNumber, currentQuestion) {
-    this.currentQuestion.innerHTML = `${questionNumber}. ${currentQuestion}`;
-    return this;
-  }
-
-  chooseTrueEvent(fn) {
-    new EventHandler(this.trueSelector).setEvent('change', (ev) => fn(ev));
-  }
-
-  chooseFalseEvent(fn) {
-    new EventHandler(this.falseSelector).setEvent('change', (ev) => fn(ev));
-  }
-
-  confirmAnswersEvent(fn) {
-    new EventHandler(this.confirmButton).setEvent('click', (ev) => fn(ev));
-  }
-
-  continueEvent(fn) {
-    new EventHandler(this.continueButton).setEvent('click', (ev) => fn(ev));
-  }
-
-  addSelectedClassToAnswerById(id) {
-    this.removeSelectedClassFromSelectors();
-    ComponentHandler.select(`#${id}`).parentElement.classList.add('selected');
-  }
-
-  removeSelectedClassFromSelectors() {
-    this.answersSelector.forEach((el) =>
-      el.parentElement.classList.remove('selected')
-    );
-    return this;
-  }
-
-  resetSelectedAnswers() {
-    this.answersSelector.forEach((el) => {
-      el.checked = false;
+    randomValues.forEach((_, i) => {
+      const random = Math.floor(Math.random() * randomValues.length);
+      const temp = randomValues[i];
+      randomValues[i] = randomValues[random];
+      randomValues[random] = temp;
     });
-    return this;
+
+    return randomValues;
   }
 
-  checkAnswerComponentById(id) {
-    ComponentHandler.select(`#${id}`).checked = true;
-    return this;
+  async function getQuestions(numberOfQuestions = 5) {
+    const response = await fetch('questions.json');
+    const questions = await response.json();
+    const randomQuestions = randomize(questions);
+    const totalQuestions = randomQuestions.splice(0, numberOfQuestions);
+
+    state.questions = totalQuestions;
   }
 
-  rightButtonClickEvent(fn) {
-    new EventHandler(this.rightButton).setEvent('click', (ev) => fn(ev));
-  }
-
-  leftButtonClickEvent(fn) {
-    new EventHandler(this.leftButton).setEvent('click', (ev) => fn(ev));
-  }
-
-  enableDisableLeftButton(questionIndex) {
-    if (questionIndex === 0) {
-      ComponentHandler.disableButton(this.leftButton);
-      return;
-    }
-
-    ComponentHandler.enableButton(this.leftButton);
-  }
-
-  toggleRightButtonVisibility(questionIndex, totalQuestions) {
-    if (questionIndex === totalQuestions - 1) {
-      this.rightButton.classList.add('none');
-      return;
-    }
-
-    this.rightButton.classList.remove('none');
-  }
-
-  toggleConfirmButtonVisibility(questionIndex, totalQuestions) {
-    if (questionIndex === totalQuestions - 1) {
-      this.showConfirmButton();
-      return;
-    }
-
-    this.hideConfirmButton();
-  }
-
-  hideConfirmButton() {
-    this.confirmButton.classList.add('none');
-    return this;
-  }
-
-  showConfirmButton() {
-    this.confirmButton.classList.remove('none');
-    return this;
-  }
-
-  restartEvent(fn) {
-    new EventHandler(this.restartButton).setEvent('click', (ev) => fn(ev));
-  }
-
-  toggleRestartButtonVisibility(questionIndex, totalQuestions) {
-    if (questionIndex === totalQuestions - 1) {
-      this.showRestartButton();
-      return;
-    }
-
-    this.hideRestartButton();
-  }
-
-  showRestartButton() {
-    this.restartButton.classList.remove('none');
-    return this;
-  }
-
-  hideRestartButton() {
-    this.restartButton.classList.add('none');
-    return this;
-  }
-
-  enableDisableConfirmButton(totalQuestionsAnswered, totalQuestions) {
-    if (totalQuestionsAnswered === totalQuestions) {
-      ComponentHandler.enableButton(this.confirmButton);
-      return;
-    }
-
-    ComponentHandler.disableButton(this.confirmButton);
-  }
-
-  showResultsModal() {
-    this.resultsModal.classList.remove('none');
-    return this;
-  }
-
-  hideResultsModal() {
-    this.resultsModal.classList.add('none');
-    return this;
-  }
-
-  showTotalCorrectAnswers(totalCorrects, totalAnswers) {
-    this.resultsModal.querySelector(
-      '#corrects'
-    ).innerHTML = `${totalCorrects}/${totalAnswers}`;
-  }
-
-  showPercentageOfAnswersCorrect(percentage) {
-    const percentageComponent = this.resultsModal.querySelector('#percentage');
-
-    if (percentage === 0) {
-      percentageComponent.innerHTML = 'This is absolutely normal. Try again.';
-      return;
-    }
-
-    percentageComponent.innerHTML = `This is ${percentage}% of questions that are correct.`;
-  }
-
-  removeCorrectIncorrectClasses() {
-    this.answersSelector.forEach((answer) => {
-      const answerComponent = answer.parentElement;
-      answerComponent.classList.remove('correct');
-      answerComponent.classList.remove('incorrect');
-    });
-  }
-
-  addCorrectClassById(id) {
-    this.removeCorrectIncorrectClasses();
-    ComponentHandler.select(`#${id}`).parentElement.classList.add('correct');
-  }
-
-  addIncorrectClassById(id) {
-    this.removeCorrectIncorrectClasses();
-    ComponentHandler.select(`#${id}`).parentElement.classList.add('incorrect');
-  }
-}
-
-class QuizHandler {
-  constructor() {
-    this.quizResource = undefined;
-    this.questions = undefined;
-
-    this.questionIndex = 0;
-    this.totalQuestions = 0;
-
-    this.choosedAnswers = {};
-
-    this.answersConfirmed = false;
-  }
-
-  start() {
-    this.getQuestions().then((response) => {
-      this.questions = response;
-      this.totalQuestions = response.length;
-      this.updateState();
-      this.startQuiz();
-    });
-  }
-
-  setQuizResource(resource) {
-    this.resource = resource;
-    return this;
-  }
-
-  getQuestions() {
-    return new QuestionHandler().getQuestions(this.resource);
-  }
-
-  startQuiz() {
-    this.showCurrentQuestion();
-    this.showCurrentAndTotalQuestions();
-
-    this.chooseTrueEvent();
-    this.chooseFalseEvent();
-    this.confirmAnswersEvent();
-    this.continueEvent();
-    this.restartEvent();
-
-    this.incrementQuestionIndex();
-    this.decrementQuestionIndex();
-  }
-
-  chooseTrueEvent() {
-    const quizComponent = new QuizComponent();
-
-    quizComponent.chooseTrueEvent((ev) => {
-      this.choosedAnswers[this.questions[this.questionIndex].id] = [
-        ev.target.id,
-        ev.target.value,
-      ];
-
-      this.enableDisableConfirmButton();
-      this.handleAnswerCheckedState(ev.target.id);
-    });
-  }
-
-  chooseFalseEvent() {
-    const quizComponent = new QuizComponent();
-
-    quizComponent.chooseFalseEvent((ev) => {
-      this.choosedAnswers[this.questions[this.questionIndex].id] = [
-        ev.target.id,
-        ev.target.value,
-      ];
-
-      this.enableDisableConfirmButton();
-      this.handleAnswerCheckedState(ev.target.id);
-    });
-  }
-
-  confirmAnswersEvent() {
-    new QuizComponent().confirmAnswersEvent(() => {
-      this.answersConfirmed = true;
-
-      new QuizComponent().showResultsModal();
-
-      const totalAnswersCorrect = this.calculateCorrectAnswers();
-
-      new QuizComponent().showTotalCorrectAnswers(
-        totalAnswersCorrect,
-        this.totalQuestions
-      );
-      new QuizComponent().showPercentageOfAnswersCorrect(
-        this.calculatePercentageOfAnswersCorrect(totalAnswersCorrect)
-      );
-    });
-  }
-
-  continueEvent() {
-    new QuizComponent().continueEvent(() => {
-      new QuizComponent()
-        .hideResultsModal()
-        .hideConfirmButton()
-        .showRestartButton();
-
-      this.handleCorrectIncorrectClasses();
-    });
-  }
-
-  restartEvent() {
-    new QuizComponent().restartEvent(() => {
-      this.reset();
-      this.updateState();
-
-      new QuizComponent().hideRestartButton().removeCorrectIncorrectClasses();
-    });
-  }
-
-  incrementQuestionIndex() {
-    new QuizComponent().rightButtonClickEvent(() => {
-      this.questionIndex++;
-      this.updateState();
-    });
-  }
-
-  decrementQuestionIndex() {
-    new QuizComponent().leftButtonClickEvent(() => {
-      this.questionIndex--;
-      this.updateState();
-    });
-  }
-
-  showCurrentQuestion() {
-    const questionNumber = this.questionIndex + 1;
-    const currentQuestion = this.questions[this.questionIndex];
-
-    new QuizComponent().showCurrentQuestion(
-      questionNumber,
+  function setCurrentQuestion() {
+    const currentQuestion = state.getCurrentQuestion();
+    question.innerHTML = `${state.currentQuestion + 1}. ${
       currentQuestion.question
-    );
+    }`;
   }
 
-  showCurrentAndTotalQuestions() {
-    new QuizComponent().showCurrentAndTotalQuestions(
-      this.questionIndex + 1,
-      this.totalQuestions
-    );
+  function setQuestionNumber() {
+    const totalQuestions = state.getTotalQuestions();
+    questionNumber.innerHTML = `${state.currentQuestion + 1}/${totalQuestions}`;
   }
 
-  handleSelectedAnswers() {
-    if (this.isCurrentQuestionAnswered()) {
-      const [componentId] = this.choosedAnswers[this.getCurrentQuestionId()];
+  function setLeftButtonState() {
+    state.currentQuestion > 0
+      ? (leftButton.disabled = false)
+      : (leftButton.disabled = true);
+  }
 
-      this.handleAnswerCheckedState(componentId);
+  function setRightButtonState() {
+    if (!answers.confirmed) {
+      handleRightAndConfirmButtonVisibility();
+      return;
+    }
+
+    handleRightAndRestartButtonVisibility();
+  }
+
+  function handleRightAndConfirmButtonVisibility() {
+    if (isLastQuestionVisible()) {
+      confirmButton.classList.remove('none');
+      rightButton.classList.add('none');
 
       return;
     }
 
-    new QuizComponent()
-      .resetSelectedAnswers()
-      .removeSelectedClassFromSelectors();
+    if (!isVisible(rightButton) && isVisible(confirmButton)) {
+      confirmButton.classList.add('none');
+      rightButton.classList.remove('none');
+    }
   }
 
-  handleAnswerCheckedState(id) {
-    new QuizComponent()
-      .checkAnswerComponentById(id)
-      .addSelectedClassToAnswerById(id);
-  }
+  function handleRightAndRestartButtonVisibility() {
+    if (isLastQuestionVisible()) {
+      restartButton.classList.remove('none');
+      rightButton.classList.add('none');
 
-  handleCorrectIncorrectClasses() {
-    if (!this.answersConfirmed) return;
-
-    const currentQuestion = this.getCurrentQuestion();
-    const componentId = this.choosedAnswers[currentQuestion.id][1];
-
-    if (this.isAnswerCorrect(currentQuestion)) {
-      new QuizComponent().addCorrectClassById(componentId);
       return;
     }
 
-    new QuizComponent().addIncorrectClassById(componentId);
+    if (!isVisible(rightButton) && isVisible(restartButton)) {
+      restartButton.classList.add('none');
+      rightButton.classList.remove('none');
+    }
   }
 
-  enableDisableLeftButton() {
-    new QuizComponent().enableDisableLeftButton(this.questionIndex);
+  function updateState() {
+    setCurrentQuestion();
+    setQuestionNumber();
+    setLeftButtonState();
+    setRightButtonState();
+    setSelectedAnswerState();
+    setRightAndWrongQuestions();
   }
 
-  toggleRightButtonVisibility() {
-    new QuizComponent().toggleRightButtonVisibility(
-      this.questionIndex,
-      this.totalQuestions
-    );
+  function chooseAnswer(e) {
+    const answer = e.target.id;
+
+    removeAllSelectedAnswerClasses();
+    e.target.closest('label').classList.add('selected');
+
+    isAnswerCorrect(answer)
+      ? (answers[state.currentQuestion] = { isCorrect: true, answer: answer })
+      : (answers[state.currentQuestion] = { isCorrect: false, answer: answer });
+
+    if (isAllQuestionsAnswered()) {
+      confirmButton.disabled = false;
+    }
   }
 
-  toggleConfirmButtonVisibility() {
-    if (this.answersConfirmed) return;
-
-    new QuizComponent().toggleConfirmButtonVisibility(
-      this.questionIndex,
-      this.totalQuestions
-    );
+  function moveLeft() {
+    state.currentQuestion--;
+    updateState();
   }
 
-  toggleRestartButtonVisibility() {
-    if (!this.answersConfirmed) return;
-
-    new QuizComponent().toggleRestartButtonVisibility(
-      this.questionIndex,
-      this.totalQuestions
-    );
+  function moveRight() {
+    state.currentQuestion++;
+    updateState();
   }
 
-  enableDisableConfirmButton() {
-    new QuizComponent().enableDisableConfirmButton(
-      this.getTotalQuestionsAnswered(),
-      this.totalQuestions
-    );
+  function setSelectedAnswerState() {
+    if (!answers[state.currentQuestion]) {
+      answerComponents.forEach((answer) => {
+        answer.checked = false;
+        answer.closest('label').classList.remove('selected');
+      });
+      return;
+    }
+    const id = answers[state.currentQuestion].answer;
+    const component = document.querySelector(`#${id}`);
+
+    component.checked = true;
+
+    removeAllSelectedAnswerClasses();
+    component.closest('label').classList.add('selected');
   }
 
-  updateState() {
-    this.showCurrentAndTotalQuestions();
-    this.showCurrentQuestion();
-
-    this.handleSelectedAnswers();
-    this.handleCorrectIncorrectClasses();
-
-    this.enableDisableLeftButton();
-    this.enableDisableConfirmButton();
-
-    this.toggleRightButtonVisibility();
-    this.toggleConfirmButtonVisibility();
-    this.toggleRestartButtonVisibility();
+  function removeAllSelectedAnswerClasses() {
+    answerComponents.forEach((component) => {
+      component.closest('label').classList.remove('selected');
+    });
   }
 
-  reset() {
-    this.choosedAnswers = {};
-    this.answersConfirmed = false;
-    this.questionIndex = 0;
-    this.updateState();
+  function confirmAnswers() {
+    answers.totalCorrect = 0;
+    answers.confirmed = true;
 
-    new QuizComponent().hideRestartButton().removeCorrectIncorrectClasses();
-  }
-
-  getTotalQuestionsAnswered() {
-    return Object.keys(this.choosedAnswers).length;
-  }
-
-  isCurrentQuestionAnswered() {
-    return this.choosedAnswers[this.getCurrentQuestionId()];
-  }
-
-  isAnswerCorrect(question) {
-    return this.choosedAnswers[question.id][1] === question.answer;
-  }
-
-  getCurrentQuestion() {
-    return this.questions[this.questionIndex];
-  }
-
-  getCurrentQuestionId() {
-    return this.getCurrentQuestion().id;
-  }
-
-  calculateCorrectAnswers() {
-    let totalCorrect = 0;
-    this.questions.forEach((question) => {
-      if (this.isAnswerCorrect(question)) {
-        totalCorrect += 1;
+    Object.values(answers).forEach((answer) => {
+      if (answer.isCorrect) {
+        answers.totalCorrect++;
       }
     });
-    return totalCorrect;
+
+    confirmButton.classList.add('none');
+    restartButton.classList.remove('none');
+
+    openResultsModal();
+    setRightAndWrongQuestions();
   }
 
-  calculatePercentageOfAnswersCorrect(totalAnswersCorrect) {
-    return (totalAnswersCorrect * 100) / this.totalQuestions;
+  function restart() {
+    resetQuestions();
+    resetAnswers();
+    removeSelectedClasses();
+    removeRightAndWrongClasses();
+    handleRightAndConfirmButtonVisibility();
+    handleRightAndRestartButtonVisibility();
+    disableButton(confirmButton);
+    updateState();
   }
-}
 
-new QuizHandler().setQuizResource('questions.json').start();
+  function resetQuestions() {
+    (async () => {
+      state.currentQuestion = 0;
+      await getQuestions();
+    })();
+  }
+
+  function resetAnswers() {
+    Object.keys(answers).forEach((k) => {
+      delete answers[k];
+    });
+  }
+
+  function openResultsModal() {
+    document.querySelector('#corrects').innerHTML = `${
+      answers.totalCorrect
+    }/${state.getTotalQuestions()}`;
+
+    document.querySelector('#percentage').innerHTML =
+      answers.totalCorrect === 0
+        ? 'This is absolutely normal, try again.'
+        : `You got ${calculatePercentageOfAnswersCorrect()}% of answers correct out of total.`;
+
+    resultsModal.classList.add('modal');
+    resultsModal.showModal();
+  }
+
+  function closeResultsModal() {
+    resultsModal.classList.remove('modal');
+    resultsModal.close();
+  }
+
+  function setRightAndWrongQuestions() {
+    if (!answers.confirmed) return;
+
+    removeRightAndWrongClasses();
+
+    const answerVisible = answers[state.currentQuestion];
+    const component = document
+      .querySelector(`#${answerVisible.answer}`)
+      .closest('label');
+
+    if (answerVisible.isCorrect) {
+      component.classList.add('correct');
+
+      return;
+    }
+
+    component.classList.add('incorrect');
+  }
+
+  function removeRightAndWrongClasses() {
+    answerComponents.forEach((component) => {
+      component.closest('label').classList.remove('correct');
+      component.closest('label').classList.remove('incorrect');
+    });
+  }
+
+  function removeSelectedClasses() {
+    answerComponents.forEach((component) => {
+      component.closest('label').classList.remove('selected');
+    });
+  }
+
+  function disableButton(button) {
+    button.disabled = true;
+  }
+
+  function calculatePercentageOfAnswersCorrect() {
+    const totalQuestions = state.getTotalQuestions();
+    const totalCorrect = answers.totalCorrect;
+
+    return Math.floor((totalCorrect * 100) / totalQuestions);
+  }
+
+  function isAnswerCorrect(answer) {
+    return answer === state.getCurrentQuestion().answer;
+  }
+
+  function isLastQuestionVisible() {
+    return state.currentQuestion === state.getTotalQuestions() - 1;
+  }
+
+  function isAllQuestionsAnswered() {
+    return Object.keys(state.questions).length === Object.keys(answers).length;
+  }
+
+  function isVisible(component) {
+    return !component.classList.contains('none');
+  }
+
+  init();
+})();
