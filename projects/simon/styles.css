@@ -11,10 +11,10 @@ body {
 }
 
 #level-title {
-  font-size: clamp(2.5rem, 5vw, 2.9rem);
-  color: #fbf2bf;
   position: absolute;
-  top: calc(5% - 1vw);
+  top: 4.5%;
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  color: #fbf2bf;
 }
 
 .container {
@@ -37,13 +37,13 @@ body {
 .buttons-grid {
   width: 100%;
   display: grid;
-  gap: 1rem;
+  gap: 1em 0.1em;
   justify-content: center;
   grid-template-columns: repeat(2, min(22em, 50%));
 }
 
 .simon-btn {
-  min-width: 15em;
+  width: min(25em, 95%);
   min-height: 15em;
   border-radius: 2rem;
   border: 10px solid;
@@ -53,10 +53,10 @@ body {
   position: fixed;
   bottom: 0;
   width: 100%;
-  padding: 1.5rem 2rem;
+  padding: 1em;
   border-radius: 1rem;
   background-color: rgba(255, 255, 255, 0.5);
-  font-size: 2rem;
+  font-size: clamp(1rem, 1.5vw, 2rem);
   font-family: 'Press start 2p', cursive;
   color: #fef2bf;
   font-weight: 800;
