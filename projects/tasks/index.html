@@ -24,7 +24,7 @@
             type="text"
             id="task-field"
             class="field"
-            placeholder="Add task to list"
+            placeholder="What should you do?"
             maxlength="50"
           />
           <button class="btn btn-md btn--blue" id="task-add" data-event="add">
@@ -43,6 +43,14 @@
             data-event="confirmEdit"
           >
             <i class="fas fa-check button-icon"></i>
+          </button>
+        </div>
+        <div class="no-tasks flex content-center items-center padding-1">
+          <button class="btn btn-complete" data-event="completeTasks">
+            Complete tasks
+          </button>
+          <button class="btn btn-delete" data-event="deleteTasks">
+            Delete tasks
           </button>
         </div>
         <ul id="tasks-container" class="list"></ul>

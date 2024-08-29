@@ -83,6 +83,12 @@
       case 'delete':
         deleteTask(taskId);
         return;
+      case 'completeTasks':
+        completeTasks();
+        return;
+      case 'deleteTasks':
+        deleteTasks();
+        return;
     }
   }
 
@@ -102,8 +108,7 @@
     taskField.setValue('');
     taskField.focus();
 
-    const tasks = taskRepository.setTask(task);
-    toggleNoTasksImageVisibility(tasks);
+    taskRepository.setTask(task);
 
     buildListComponent(task);
   }
@@ -114,11 +119,15 @@
       return task.id !== taskId;
     });
 
-    toggleNoTasksImageVisibility(updatedTasks);
-
     taskRepository.setTasks(updatedTasks);
 
     renderTasks(updatedTasks);
+  }
+
+  function deleteTasks() {
+    taskRepository.setTasks([]);
+
+    renderTasks([]);
   }
 
   function confirmEdit() {
@@ -185,24 +194,21 @@
     taskRepository.setTasks(updatedTasks);
   }
 
-  function toggleNoTasksImageVisibility(tasks) {
-    const noTasksImageContainer = document.querySelector('#image-container');
-    const hasTasks = tasks.length > 0;
+  function completeTasks() {
+    const tasks = taskRepository.getTasks();
+    const updatedTasks = tasks.map((task) => {
+      task.completed = true;
+      return task;
+    });
 
-    if (!hasTasks) {
-      noTasksImageContainer.classList.add('visible');
-      return;
-    }
-
-    noTasksImageContainer.classList.remove('visible');
+    taskRepository.setTasks(updatedTasks);
+    renderTasks(updatedTasks);
   }
 
   function renderTasks(tasks) {
     tasksContainer.innerHTML = '';
 
     const tasksOrFetch = tasks || taskRepository.getTasks();
-
-    toggleNoTasksImageVisibility(tasksOrFetch);
 
     tasksOrFetch.forEach(buildListComponent);
   }
