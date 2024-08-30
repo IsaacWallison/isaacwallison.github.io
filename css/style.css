@@ -163,6 +163,10 @@ p {
   left: 0;
 }
 
+.profile {
+  mix-blend-mode: lighten;
+}
+
 .container {
   padding: 1.5em 1em 5em 1em;
   min-height: 100svh;
