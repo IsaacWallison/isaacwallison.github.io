@@ -7,7 +7,22 @@
       href="../../images/logo.svg"
       type="image/x-icon"
     />
+    <style>
+      @media (max-width: 680px) {
+        body {
+          background-image: url(./assets/images/rain-mobile.jpg);
+          background-size: cover;
+        }
+      }
+      @media (min-width: 680px) {
+        body {
+          background-image: url(./assets/images/rain-desktop.jpg);
+          background-size: cover;
+        }
+      }
+    </style>
     <link rel="stylesheet" href="./assets/css/style.css" />
+    <script defer src="assets/js/script.js"></script>
     <title>Pomodoro</title>
   </head>
   <body>
@@ -31,7 +46,5 @@
         </section>
       </div>
     </main>
-
-    <script src="assets/js/script.js"></script>
   </body>
 </html>
