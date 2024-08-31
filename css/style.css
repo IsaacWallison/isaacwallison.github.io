@@ -71,11 +71,11 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  position: sticky;
   position: fixed;
   width: 100%;
   top: 0;
   transition: 400ms;
+  z-index: 1;
 }
 
 .navbar.visible {
@@ -113,6 +113,7 @@ p {
   justify-content: center;
   gap: 0.2em;
   cursor: pointer;
+  z-index: 1;
 }
 
 @media (min-width: 700px) {
@@ -145,6 +146,7 @@ p {
   width: 100%;
   height: 100%;
   transition: 400ms;
+  z-index: 10;
 }
 
 .mobile-navbar > ul {
@@ -170,6 +172,21 @@ p {
 .container {
   padding: 1.5em 1em 5em 1em;
   min-height: 100svh;
+}
+
+section.container.animate {
+  animation: animateSection 1s forwards ease;
+}
+
+@keyframes animateSection {
+  from {
+    opacity: 0;
+    transform: translateY(5em);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .container:not(.container--blue) {
