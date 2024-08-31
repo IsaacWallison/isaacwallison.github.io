@@ -17,7 +17,6 @@
   </head>
   <body>
     <main class="container flex--y">
-      <div></div>
       <div class="card" id="tasks-component">
         <div class="flex padding-1">
           <input
@@ -46,10 +45,13 @@
           </button>
         </div>
         <div class="no-tasks flex content-center items-center padding-1">
-          <button class="btn btn-complete" data-event="completeTasks">
+          <button
+            class="btn btn-disable btn-complete"
+            data-event="completeTasks"
+          >
             Complete tasks
           </button>
-          <button class="btn btn-delete" data-event="deleteTasks">
+          <button class="btn btn-disable btn-delete" data-event="deleteTasks">
             Delete tasks
           </button>
         </div>

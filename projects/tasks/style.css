@@ -25,7 +25,9 @@
 
 body {
   background-color: rgb(95% 95% 95%);
+  color: rgb(20% 20% 25%);
   font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100svh;
 }
 
 :has(.list:empty) > .no-tasks {
@@ -122,6 +124,11 @@ body {
   transform: translateY(4px);
 }
 
+.btn-complete:disabled,
+.btn-delete:disabled {
+  opacity: 0.5;
+}
+
 .btn-complete {
   background-color: rgb(50% 60% 90%);
 }
@@ -144,7 +151,7 @@ body {
 }
 
 .list {
-  max-height: 100svh;
+  max-height: calc(100vh - 10em);
   overflow-y: scroll;
 }
 
