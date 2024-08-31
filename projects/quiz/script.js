@@ -244,7 +244,7 @@
     document.querySelector('#percentage').innerHTML =
       answers.totalCorrect === 0
         ? 'This is absolutely normal, try again.'
-        : `You got ${calculatePercentageOfAnswersCorrect()}% of answers correct out of total.`;
+        : `This is ${calculatePercentageOfAnswersCorrect()}% of answers correct out of total.`;
 
     resultsModal.classList.add('modal');
     resultsModal.showModal();
