@@ -151,7 +151,7 @@ body {
 }
 
 .list {
-  max-height: calc(100vh - 12em);
+  max-height: calc(100vh - 15em);
   overflow-y: scroll;
 }
 
