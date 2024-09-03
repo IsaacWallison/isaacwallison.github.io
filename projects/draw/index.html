@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <title>Canvas</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="draw-buttons">
+        <button id="saveButton" class="btn btn-theme">save</button>
+        <button id="drawModeButton" class="btn fas fa-pencil"></button>
+        <button id="eraseModeButton" class="btn fas fa-eraser"></button>
+        <button id="clearButton" class="btn">clear</button>
+        <input type="range" id="lineWidth" min="1" max="20" />
+        <input type="color" id="lineColor" />
+      </div>
+
+      <canvas id="canvas"></canvas>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
