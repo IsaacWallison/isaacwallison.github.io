@@ -6,10 +6,6 @@
   box-sizing: border-box;
 }
 
-body {
-  min-height: 100vh;
-}
-
 html {
   font-size: 62.5%;
 }
@@ -18,19 +14,10 @@ html {
   background-color: rgb(95% 95% 96%);
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  place-items: center;
-  place-content: center;
-  min-height: 100vh;
-}
-
 .draw-buttons {
-  padding: 1rem 1.5rem;
+  padding: 2.5rem 2rem;
   display: flex;
   place-items: center;
-  place-content: center;
   justify-content: flex-start;
   gap: 2rem;
   width: 100%;
@@ -47,8 +34,13 @@ html {
 }
 
 .draw-buttons::-webkit-scrollbar {
-  width: 0;
-  height: 0;
+  height: 4px;
+  background-color: rgb(20% 25% 26%);
+}
+
+.draw-buttons::-webkit-scrollbar-thumb {
+  background-color: rgb(95% 95% 96%);
+  border-radius: 5rem;
 }
 
 #lineColor {
@@ -76,7 +68,7 @@ html {
   text-transform: uppercase;
   letter-spacing: 0.1rem;
   font-weight: 600;
-  font-size: clamp(1rem, 2vw, 2rem);
+  font-size: clamp(1rem, 1vw, 2rem);
   color: rgb(25% 25% 26%);
   transition: 0.5s;
 }
@@ -97,9 +89,6 @@ html {
 }
 
 @media (min-width: 60rem) {
-  #canvas {
-    position: relative;
-  }
   .draw-buttons {
     justify-content: center;
   }
