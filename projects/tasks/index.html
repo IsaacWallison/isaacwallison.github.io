@@ -3,10 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
     <link
       rel="shortcut icon"
-      href="../../images/logo.svg"
+      href="../../images/logotipo.svg"
       type="image/x-icon"
     />
     <link
@@ -14,61 +13,55 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
     <title>TaskIt</title>
+    <script type="module" crossorigin src="script.js"></script>
+    <link rel="stylesheet" crossorigin href="style.css" />
   </head>
   <body>
-    <main class="container flex--y">
-      <div class="card" id="tasks-component">
-        <div class="flex padding-1">
+    <div class="container">
+      <div id="task-form" class="task-form">
+        <div class="flex">
           <input
             type="text"
-            id="task-field"
-            class="field"
+            id="task-title"
+            class="text-field"
             placeholder="What should you do?"
-            maxlength="50"
           />
-          <button class="btn btn-md btn--blue" id="task-add" data-event="add">
-            <i class="fas fa-plus button-icon"></i>
+          <button class="btn btn--blue" data-event="add-task">&plus;</button>
+
+          <div id="edit-buttons" class="flex none">
+            <button class="btn fas fa-close" data-event="cancel-edit"></button>
+            <button
+              class="btn btn--blue fas fa-check"
+              data-event="confirm-edit"
+            ></button>
+          </div>
+        </div>
+
+        <div id="search-buttons" class="flex flex--wrap pd">
+          <button class="btn" data-event="list-all" data-search="all">
+            All
+          </button>
+          <button class="btn" data-event="list-complete" data-search="complete">
+            Complete
           </button>
           <button
-            class="btn btn-md none"
-            id="cancel-edit"
-            data-event="cancelEdit"
+            class="btn"
+            data-event="list-incomplete"
+            data-search="incomplete"
           >
-            <i class="fas fa-close button-icon"></i>
-          </button>
-          <button
-            class="btn btn-md btn-blue none"
-            id="confirm-edit"
-            data-event="confirmEdit"
-          >
-            <i class="fas fa-check button-icon"></i>
+            Incomplete
           </button>
         </div>
-        <div class="no-tasks flex content-center items-center padding-1">
-          <button
-            class="btn btn-disable btn-complete"
-            data-event="completeTasks"
-          >
-            Complete tasks
-          </button>
-          <button class="btn btn-disable btn-delete" data-event="deleteTasks">
-            Delete tasks
-          </button>
-        </div>
-        <ul id="tasks-container" class="list"></ul>
       </div>
 
-      <div id="image-container" class="image-container flex--y align-center">
-        <h2>No tasks</h2>
+      <ul id="tasks" class="tasks-list"></ul>
+
+      <div id="no-tasks" class="image-container none">
         <img
           src="./images/undraw_accept_tasks_re_09mv.svg"
-          alt="no tasks"
-          class="image"
-          id="no-tasks"
+          alt="illustration when no tasks (undraw)"
         />
       </div>
-    </main>
-
-    <script src="script.js"></script>
+    </div>
   </body>
 </html>
