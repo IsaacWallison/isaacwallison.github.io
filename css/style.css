@@ -230,6 +230,39 @@ section.container.animate {
   color: var(--light);
 }
 
+.percentages {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.abilitie {
+  color: var(--gray-100);
+  background-color: var(--gray-100);
+  width: min(20rem, 100%);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  position: relative;
+}
+
+.abilitie span {
+  position: relative;
+  z-index: 1;
+}
+
+.abilitie-percentage {
+  width: 0;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 0.5rem;
+  background-color: var(--green-500);
+  transition: 1s;
+}
+
 .card {
   width: min(500px, 95%);
   background-color: var(--light);
