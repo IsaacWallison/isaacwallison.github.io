@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="../../images/logotipo.svg" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <title>SimpliMoney</title>
+    <script type="module" crossorigin src="assets/index-4uuLp4hJ.js"></script>
+    <link rel="stylesheet" crossorigin href="assets/index-CcuD0QHi.css" />
+  </head>
+  <body>
+    <main>
+      <section>
+        <form class="expense-form flex-center">
+          <input
+            type="number"
+            id="form-money"
+            class="field-money"
+            placeholder="Add your money here"
+          />
+          <input
+            type="text"
+            id="form-description"
+            class="field-description"
+            placeholder="Expense description"
+          />
+          <input
+            type="number"
+            id="form-expenditure"
+            class="field-expenditure"
+            placeholder="Expense value"
+          />
+          <button
+            type="button"
+            id="create-expense"
+            class="btn btn--blue fas fa-plus"
+          ></button>
+          <button
+            type="button"
+            id="cancel-edit"
+            class="btn none fas fa-close"
+          ></button>
+          <button
+            type="button"
+            id="confirm-edit"
+            class="btn btn--blue none fas fa-check"
+          ></button>
+        </form>
+        <div class="info flex-center">
+          <div>
+            <h4 id="info-money">0,00</h4>
+          </div>
+          <div>
+            <h4 id="info-expense">0,00</h4>
+          </div>
+          <div>
+            <h4 id="info-result">0,00</h4>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="board-scroll"
+        role="region"
+        aria-labelledby="expenses"
+        tabindex="0"
+      >
+        <table class="expenses-board" id="expenses-board"></table>
+      </section>
+
+      <div id="no-expenses" class="image-container">
+        <img
+          src="money.png"
+          alt="no expenses illustration figure (undraw image)"
+        />
+        <h2>No Expenses</h2>
+      </div>
+    </main>
+  </body>
+</html>
