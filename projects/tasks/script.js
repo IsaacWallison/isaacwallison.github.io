@@ -1,6 +1,6 @@
 (function () {
-  const t = document.createElement('link').relList;
-  if (t && t.supports && t.supports('modulepreload')) return;
+  const e = document.createElement('link').relList;
+  if (e && e.supports && e.supports('modulepreload')) return;
   for (const s of document.querySelectorAll('link[rel="modulepreload"]')) a(s);
   new MutationObserver((s) => {
     for (const r of s)
@@ -28,26 +28,36 @@
     fetch(s.href, r);
   }
 })();
-const l = (e) => document.querySelector(e),
-  g = (e) => document.querySelectorAll(e),
-  d = {
+function l(t) {
+  return document.querySelector(t);
+}
+function g(t) {
+  return document.querySelectorAll(t);
+}
+const d = {
     element: l('#task-title'),
     getValue() {
       return this.element.value;
     },
-    setValue(e) {
-      this.element.value = e;
+    setValue(t) {
+      this.element.value = t;
+    },
+    focus() {
+      this.element.focus();
+    },
+    isEmpty() {
+      return !this.getValue().trim().length;
     },
   },
-  u = (e, t) => {
-    g(e).forEach((n) => {
+  u = (t, e) => {
+    g(t).forEach((n) => {
       const a = n;
-      a.disabled = t;
+      a.disabled = e;
     });
   };
-var i = ((e) => (
-  (e.All = 'all'), (e.Complete = 'complete'), (e.Incomplete = 'incomplete'), e
-))(i || {});
+var c = ((t) => (
+  (t.All = 'all'), (t.Complete = 'complete'), (t.Incomplete = 'incomplete'), t
+))(c || {});
 const o = { taskToBeEdited: null, isRemovingTask: !1, searchedTasks: 'all' },
   k = () => {
     d.setValue(''),
@@ -57,9 +67,9 @@ const o = { taskToBeEdited: null, isRemovingTask: !1, searchedTasks: 'all' },
       u("button[data-event='edit-mode']", !1),
       u("button[data-event='delete-task']", !1);
   },
-  c = {
-    getTask(e) {
-      return this.getAll().find((a) => a.id === e);
+  i = {
+    getTask(t) {
+      return this.getAll().find((a) => a.id === t);
     },
     getAll() {
       return JSON.parse(localStorage.getItem('tasks') || '[]');
@@ -72,94 +82,94 @@ const o = { taskToBeEdited: null, isRemovingTask: !1, searchedTasks: 'all' },
     },
     getTasks() {
       switch (o.searchedTasks) {
-        case i.All:
+        case c.All:
           return this.getAll();
-        case i.Complete:
+        case c.Complete:
           return this.getCompleted();
-        case i.Incomplete:
+        case c.Incomplete:
           return this.getIncompleted();
         default:
           return this.getAll();
       }
     },
-    setTask(e) {
-      const t = this.getAll();
-      t.push(e), this.setTasks(t);
+    setTask(t) {
+      const e = this.getAll();
+      e.push(t), this.setTasks(e);
     },
-    setTasks(e) {
-      localStorage.setItem('tasks', JSON.stringify(e));
+    setTasks(t) {
+      localStorage.setItem('tasks', JSON.stringify(t));
     },
-    updateTitle(e, t) {
-      const a = this.getAll().map((s) => (s.id === e && (s.title = t), s));
+    updateTitle(t, e) {
+      const a = this.getAll().map((s) => (s.id === t && (s.title = e), s));
       this.setTasks(a);
     },
-    toggleComplete(e) {
+    toggleComplete(t) {
       const n = this.getAll().map(
-        (a) => (a.id === e && (a.completed = !a.completed), a)
+        (a) => (a.id === t && (a.completed = !a.completed), a)
       );
       this.setTasks(n);
     },
   },
-  p = (e) => `
+  p = (t) => `
     <li class="task flex">
       <label class="flex stretch align-center">
-        <input type="checkbox" data-event="toggle-complete" data-id="${e.id}" ${
-    e.completed && 'checked'
+        <input type="checkbox" data-event="toggle-complete" data-id="${t.id}" ${
+    t.completed && 'checked'
   }/>
-        <span>${e.title}</span> 
+        <span>${t.title}</span> 
       </label>
 
       <div class="flex">
         <button class="btn fas fa-edit" data-id="${
-          e.id
+          t.id
         }" data-event="edit-mode"></button>
         <button class="btn fas fa-close" data-id="${
-          e.id
+          t.id
         }" data-event="delete-task"></button>
       </div>
     </li>
 `,
   T = () => {
-    g('button[data-search]').forEach((e) =>
-      e.classList.remove('btn--selected')
+    g('button[data-search]').forEach((t) =>
+      t.classList.remove('btn--selected')
     ),
       l(`button[data-search="${o.searchedTasks}"]`).classList.add(
         'btn--selected'
       );
   },
-  m = (e) => {
-    const t = l('#no-tasks');
-    t.classList.add('none'), e.length || t.classList.remove('none');
+  m = (t) => {
+    const e = l('#no-tasks');
+    e.classList.add('none'), t.length || e.classList.remove('none');
     const n = l('#tasks');
     (n.innerHTML = ''),
-      e.forEach((a) => {
+      t.forEach((a) => {
         n.insertAdjacentHTML('beforeend', p(a));
       }),
       T();
   },
   h = () => {
-    const e = d.getValue();
-    e.trim() &&
+    const t = d.getValue();
+    t.trim() &&
       o.taskToBeEdited &&
-      (c.updateTitle(o.taskToBeEdited.id, e), k(), m(c.getAll()));
+      (i.updateTitle(o.taskToBeEdited.id, t), k(), m(i.getAll()));
   },
-  v = (e) => {
+  v = (t) => {
     u('button[data-search]', !1),
-      (o.searchedTasks === i.All || o.searchedTasks === i.Incomplete) &&
-        (l('#tasks').insertAdjacentHTML('beforeend', p(e)),
+      (o.searchedTasks === c.All || o.searchedTasks === c.Incomplete) &&
+        (l('#tasks').insertAdjacentHTML('beforeend', p(t)),
         l('#no-tasks').classList.add('none')),
       T();
   },
   b = () => {
-    const e = d.getValue();
-    if (!e.trim()) return;
-    const t = { id: Date.now(), title: e, completed: !1 };
-    d.setValue(''), c.setTask(t), v(t);
+    if (d.isEmpty()) return;
+    const t = d.getValue(),
+      e = { id: Date.now(), title: t, completed: !1 };
+    d.setValue(''), d.focus(), i.setTask(e), v(e);
   },
-  L = (e) => {
-    if (e.target instanceof HTMLElement) {
-      if (!e.target.dataset.event) return;
-      switch (e.target.dataset.event) {
+  L = (t) => {
+    if (t.target instanceof HTMLElement) {
+      if (!t.target.dataset.event) return;
+      switch (t.target.dataset.event) {
         case 'add-task':
           b();
           return;
@@ -173,61 +183,62 @@ const o = { taskToBeEdited: null, isRemovingTask: !1, searchedTasks: 'all' },
         case 'list-complete':
         case 'list-incomplete':
           k(),
-            e.target.dataset.search === 'all' && (o.searchedTasks = i.All),
-            e.target.dataset.search === 'complete' &&
-              (o.searchedTasks = i.Complete),
-            e.target.dataset.search === 'incomplete' &&
-              (o.searchedTasks = i.Incomplete),
-            m(c.getTasks());
+            t.target.dataset.search === 'all' && (o.searchedTasks = c.All),
+            t.target.dataset.search === 'complete' &&
+              (o.searchedTasks = c.Complete),
+            t.target.dataset.search === 'incomplete' &&
+              (o.searchedTasks = c.Incomplete),
+            m(i.getTasks());
           return;
       }
     }
   },
-  A = (e) => {
+  A = (t) => {
     if (o.isRemovingTask) return;
-    const n = c.getAll().filter((a) => a.id !== e);
-    c.setTasks(n),
-      l(`button[data-id="${e}"]`)
+    const n = i.getAll().filter((a) => a.id !== t);
+    i.setTasks(n),
+      l(`button[data-id="${t}"]`)
         .closest('li')
         .classList.add('remove-animation'),
       (o.isRemovingTask = !0),
       setTimeout(() => {
-        m(c.getTasks()), (o.isRemovingTask = !1);
+        m(i.getTasks()), (o.isRemovingTask = !1);
       }, 1e3);
   },
-  E = (e) => {
-    const t = c.getTask(e);
-    t &&
-      (d.setValue(t.title),
+  E = (t) => {
+    const e = i.getTask(t);
+    e &&
+      (d.setValue(e.title),
       d.element.focus(),
-      (o.taskToBeEdited = t),
+      (o.taskToBeEdited = e),
       l("button[data-event='add-task']").classList.add('none'),
       l('#edit-buttons').classList.remove('none'),
       u("button[data-event='edit-mode']", !0),
       u("button[data-event='delete-task']", !0));
   },
-  y = (e) => {
-    c.toggleComplete(e), m(c.getTasks());
+  y = (t) => {
+    i.toggleComplete(t), m(i.getTasks());
   },
-  I = (e) => {
-    if (e.target instanceof HTMLElement) {
-      if (!e.target.dataset.event || !e.target.dataset.id) return;
-      switch (e.target.dataset.event) {
+  I = (t) => {
+    if (t.target instanceof HTMLElement) {
+      if (!t.target.dataset.event || !t.target.dataset.id) return;
+      switch (t.target.dataset.event) {
         case 'delete-task':
-          A(+e.target.dataset.id);
+          A(+t.target.dataset.id);
           return;
         case 'edit-mode':
-          E(+e.target.dataset.id);
+          E(+t.target.dataset.id);
           return;
         case 'toggle-complete':
-          y(+e.target.dataset.id);
+          y(+t.target.dataset.id);
           return;
       }
     }
-  };
+  },
+  O = l('#task-title');
 window.onload = () => {
-  const e = c.getTasks();
-  m(e);
+  const t = i.getTasks();
+  O.focus(), m(t);
 };
 l('#task-form').addEventListener('click', L);
 l('#tasks').addEventListener('click', I);
