@@ -1,35 +1,26 @@
 <!DOCTYPE html>
-<html lang="pt" dir="ltr">
+<html lang="pt-br">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simon</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="icon" href="../../images/logotipo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css?family=Press+Start+2P"
+      href="https://fonts.googleapis.com/css2?family=Jersey+15&display=swap"
       rel="stylesheet"
     />
+    <title>Simon</title>
+    <script type="module" crossorigin src="assets/index-Co255bTE.js"></script>
+    <link rel="stylesheet" crossorigin href="assets/index-DeKMR2mm.css" />
   </head>
-
   <body>
-    <div class="container">
-      <h1 id="level-title" class="none">Level 1</h1>
-      <div class="buttons-container">
-        <div class="buttons-grid">
-          <button type="button" id="green" class="green btn simon-btn"></button>
-          <button type="button" id="red" class="red btn simon-btn"></button>
-          <button
-            type="button"
-            id="yellow"
-            class="yellow btn simon-btn"
-          ></button>
-          <button type="button" id="blue" class="blue btn simon-btn"></button>
-        </div>
-        <button class="start-btn" id="start-button">Start</button>
-      </div>
-    </div>
+    <div id="app">
+      <h1 class="level"></h1>
 
-    <script src="game.js"></script>
+      <div class="grid"></div>
+
+      <button class="start">Start</button>
+      <button class="restart none">Restart</button>
+    </div>
   </body>
 </html>
