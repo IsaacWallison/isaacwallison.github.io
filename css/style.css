@@ -175,13 +175,13 @@ p {
 }
 
 section.container.animate {
-  animation: animateSection 1s forwards ease;
+  animation: animateSection 2s forwards ease;
 }
 
 @keyframes animateSection {
   from {
-    opacity: 0;
-    transform: translateY(5em);
+    opacity: 0.5;
+    transform: translateY(15em);
   }
   to {
     opacity: 1;
