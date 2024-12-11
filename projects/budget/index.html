@@ -9,8 +9,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
     <title>SimpliMoney</title>
-    <script type="module" crossorigin src="assets/index-Wl4yY_zf.js"></script>
-    <link rel="stylesheet" crossorigin href="assets/index-C7elJIxG.css" />
+    <script type="module" crossorigin src="assets/index-X0p49sU1.js"></script>
+    <link rel="stylesheet" crossorigin href="assets/index-iFFCZ-zq.css" />
   </head>
   <body>
     <main>
@@ -22,6 +22,7 @@
               id="form-money"
               class="field-money"
               placeholder="Your money"
+              value="1500"
             />
             <i class="fa-solid fa-coins"></i>
           </div>
@@ -30,18 +31,18 @@
               type="text"
               id="form-description"
               class="field-description"
-              placeholder="Expense description"
+              placeholder="Description"
             />
             <input
               type="number"
               id="form-expenditure"
               class="field-expenditure"
-              placeholder="Expense value"
+              placeholder="Amount"
             />
             <button
               type="button"
               id="create-expense"
-              class="btn btn--blue fas fa-plus"
+              class="btn btn--theme fas fa-plus"
             ></button>
             <button
               type="button"
@@ -51,18 +52,18 @@
             <button
               type="button"
               id="confirm-edit"
-              class="btn btn--blue none fas fa-check"
+              class="btn btn--theme none fas fa-check"
             ></button>
           </div>
         </form>
         <div class="info flex-center">
-          <div>
+          <div class="info-money">
             <h4 id="info-money"></h4>
           </div>
-          <div>
+          <div class="info-expense">
             <h4 id="info-expense"></h4>
           </div>
-          <div>
+          <div class="info-result">
             <h4 id="info-result"></h4>
           </div>
         </div>
@@ -78,10 +79,7 @@
       </section>
 
       <div id="no-expenses" class="image-container">
-        <img
-          src="money.png"
-          alt="no expenses illustration figure (undraw image)"
-        />
+        <img src="money.png" alt="Money image" />
         <h2>No Expenses</h2>
       </div>
     </main>
