@@ -5,6 +5,35 @@ const navbar = document.querySelector('.navbar');
 const sections = document.querySelectorAll('section.container');
 const percentages = document.querySelector('.percentages');
 
+const abilitites = [
+  ['Algoritmos', 55],
+  ['HTML', 85],
+  ['CSS', 75],
+  ['JS', 76],
+  ['React', 60],
+  ['Node', 60],
+  ['SQL', 50],
+  ['Java', 50],
+  ['Python', 62],
+];
+
+onload = () => {
+  abilitites.forEach((abilitie) => {
+    percentages.insertAdjacentHTML(
+      'beforeend',
+      `<div class="abilitie">
+          <span>${abilitie[0]}</span>
+          <div id="${abilitie[0]}" class="abilitie-percentage" data-percentage="${abilitie[1]}"></div>
+       </div>
+      `
+    );
+  });
+};
+
+onbeforeunload = () => {
+  window.scrollTo({ top: 0 });
+};
+
 const navbarObserver = new IntersectionObserver(changeNavbarTheme, {
   root: null,
   rootMargin: '-200px',
@@ -51,17 +80,9 @@ function animatePercentages(entries, observer) {
 
   if (!entry.isIntersecting) return;
 
-  [
-    { abilitie: 'algorithms', percent: 55 },
-    { abilitie: 'html', percent: 90 },
-    { abilitie: 'css', percent: 85 },
-    { abilitie: 'js', percent: 80 },
-    { abilitie: 'react', percent: 65 },
-    { abilitie: 'node', percent: 60 },
-  ].forEach((values, i) => {
-    entry.target.querySelectorAll('.abilitie-percentage')[
-      i
-    ].style.width = `${values.percent}%`;
+  abilitites.forEach((abilitie) => {
+    const component = document.querySelector(`#${abilitie[0]}`);
+    component && (component.style.width = `${abilitie[1]}%`);
   });
 
   observer.unobserve(entry.target);
