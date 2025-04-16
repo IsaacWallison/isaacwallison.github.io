@@ -241,7 +241,7 @@ section.container.animate {
 .abilitie {
   color: var(--gray-100);
   background-color: var(--gray-100);
-  width: min(20rem, 100%);
+  width: min(28rem, 100%);
   padding: 1rem;
   border-radius: 0.5rem;
   position: relative;
@@ -272,6 +272,10 @@ section.container.animate {
   align-items: center;
   padding: 1em;
   gap: 1em;
+}
+
+.card--service {
+  border: 1px solid var(--blue-600);
 }
 
 .button {
@@ -318,6 +322,11 @@ section.container.animate {
   padding: 4em 1em;
 }
 
+.image-service {
+  width: 15rem;
+  height: 15rem;
+}
+
 .text-center {
   text-align: center;
 }
@@ -335,7 +344,7 @@ section.container.animate {
 }
 
 .highlight {
-  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
   background-color: var(--color-glass);
   padding: 1em;
   letter-spacing: 0.2rem;
